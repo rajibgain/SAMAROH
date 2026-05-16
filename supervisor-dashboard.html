@@ -5,62 +5,314 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supervisor Dashboard</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
 
         *{
             margin:0;
             padding:0;
             box-sizing:border-box;
-            font-family:Arial,sans-serif;
         }
 
         body{
-            background:#f3f4f6;
+            font-family:'Poppins',sans-serif;
+            min-height:100vh;
+            background:#020617;
+            overflow-x:hidden;
+            position:relative;
+            color:white;
         }
 
+        /* BACKGROUND */
+
+        .background{
+            position:fixed;
+            inset:0;
+            z-index:-10;
+        }
+
+        .background::before{
+            content:'';
+            position:absolute;
+            inset:0;
+
+            background:
+            linear-gradient(
+                rgba(2,6,23,0.75),
+                rgba(15,23,42,0.88)
+            ),
+
+            url('https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1600&q=80');
+
+            background-size:cover;
+            background-position:center;
+            filter:blur(2px);
+            transform:scale(1.05);
+        }
+
+        .glow{
+            position:absolute;
+            border-radius:50%;
+            filter:blur(90px);
+            opacity:0.45;
+            animation:float 10s infinite ease-in-out;
+        }
+
+        .glow1{
+            width:280px;
+            height:280px;
+            background:#3b82f6;
+            top:-50px;
+            left:-50px;
+        }
+
+        .glow2{
+            width:240px;
+            height:240px;
+            background:#ec4899;
+            right:-40px;
+            top:30%;
+            animation-delay:2s;
+        }
+
+        .glow3{
+            width:220px;
+            height:220px;
+            background:#8b5cf6;
+            bottom:-50px;
+            left:30%;
+            animation-delay:4s;
+        }
+
+        @keyframes float{
+
+            0%{
+                transform:translateY(0px);
+            }
+
+            50%{
+                transform:translateY(-25px);
+            }
+
+            100%{
+                transform:translateY(0px);
+            }
+        }
+
+        /* NAVBAR */
+
         .navbar{
-            background:#1e293b;
-            color:white;
-            padding:20px 40px;
+            width:100%;
+            padding:25px 50px;
             display:flex;
             justify-content:space-between;
             align-items:center;
+
+            backdrop-filter:blur(20px);
+
+            background:rgba(255,255,255,0.06);
+
+            border-bottom:1px solid rgba(255,255,255,0.08);
+        }
+
+        .logo-section h1{
+            font-size:32px;
+            font-weight:800;
+        }
+
+        .logo-section p{
+            color:#cbd5e1;
+            margin-top:4px;
+            font-size:14px;
         }
 
         .logout-btn{
-            padding:10px 20px;
+            padding:14px 24px;
             border:none;
-            border-radius:8px;
-            background:#ef4444;
+            border-radius:14px;
+
+            background:linear-gradient(
+                135deg,
+                #ef4444,
+                #dc2626
+            );
+
             color:white;
+            font-weight:600;
             cursor:pointer;
+            transition:0.3s;
         }
 
         .logout-btn:hover{
-            background:#dc2626;
+            transform:translateY(-2px);
         }
 
+        /* HERO */
+
+        .hero{
+            padding:60px 60px 20px;
+        }
+
+        .hero-card{
+            width:100%;
+            padding:45px;
+            border-radius:30px;
+
+            background:rgba(255,255,255,0.08);
+
+            backdrop-filter:blur(20px);
+
+            border:1px solid rgba(255,255,255,0.1);
+
+            box-shadow:
+            0 20px 50px rgba(0,0,0,0.45);
+        }
+
+        .hero-card h2{
+            font-size:48px;
+            margin-bottom:18px;
+            line-height:1.1;
+        }
+
+        .hero-card p{
+            font-size:17px;
+            color:#cbd5e1;
+            max-width:850px;
+            line-height:1.8;
+        }
+
+        /* DASHBOARD GRID */
+
         .dashboard{
-            padding:40px;
+            padding:40px 60px 70px;
+
             display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-            gap:25px;
+
+            grid-template-columns:
+            repeat(auto-fit,minmax(280px,1fr));
+
+            gap:28px;
         }
 
         .card{
-            background:white;
-            padding:30px;
-            border-radius:12px;
-            box-shadow:0 5px 15px rgba(0,0,0,0.1);
+            padding:32px;
+            border-radius:26px;
+
+            background:rgba(255,255,255,0.08);
+
+            backdrop-filter:blur(20px);
+
+            border:1px solid rgba(255,255,255,0.08);
+
+            transition:0.35s;
+
+            position:relative;
+            overflow:hidden;
         }
 
-        .card h2{
-            margin-bottom:15px;
-            color:#111827;
+        .card::before{
+            content:'';
+            position:absolute;
+            inset:0;
+
+            background:
+            linear-gradient(
+                135deg,
+                rgba(255,255,255,0.08),
+                transparent
+            );
+
+            opacity:0;
+            transition:0.3s;
+        }
+
+        .card:hover{
+            transform:
+            translateY(-8px)
+            scale(1.02);
+
+            box-shadow:
+            0 25px 45px rgba(0,0,0,0.35);
+        }
+
+        .card:hover::before{
+            opacity:1;
+        }
+
+        .icon{
+            font-size:52px;
+            margin-bottom:18px;
+        }
+
+        .card h3{
+            font-size:26px;
+            margin-bottom:14px;
         }
 
         .card p{
-            color:#4b5563;
+            color:#cbd5e1;
+            line-height:1.7;
+            font-size:15px;
+        }
+
+        .value{
+            font-size:42px;
+            font-weight:800;
+            margin-top:18px;
+        }
+
+        /* COLORS */
+
+        .blue{
+            border-left:6px solid #3b82f6;
+        }
+
+        .pink{
+            border-left:6px solid #ec4899;
+        }
+
+        .purple{
+            border-left:6px solid #8b5cf6;
+        }
+
+        .orange{
+            border-left:6px solid #f97316;
+        }
+
+        .green{
+            border-left:6px solid #10b981;
+        }
+
+        .cyan{
+            border-left:6px solid #06b6d4;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width:900px){
+
+            .navbar{
+                padding:20px;
+                flex-direction:column;
+                gap:20px;
+                text-align:center;
+            }
+
+            .hero{
+                padding:25px 20px;
+            }
+
+            .dashboard{
+                padding:20px;
+            }
+
+            .hero-card h2{
+                font-size:36px;
+            }
         }
 
     </style>
@@ -69,9 +321,25 @@
 
 <body>
 
+    <div class="background">
+
+        <div class="glow glow1"></div>
+        <div class="glow glow2"></div>
+        <div class="glow glow3"></div>
+
+    </div>
+
+    <!-- NAVBAR -->
+
     <div class="navbar">
 
-        <h1>Supervisor Dashboard</h1>
+        <div class="logo-section">
+
+            <h1>🎭 SAMAROH</h1>
+
+            <p>Supervisor Control Dashboard</p>
+
+        </div>
 
         <button class="logout-btn"
         onclick="window.location.href='./index.html'">
@@ -82,29 +350,108 @@
 
     </div>
 
-    <div class="dashboard">
+    <!-- HERO SECTION -->
 
-        <div class="card">
-            <h2>Total Members</h2>
-            <p>125 Registered Members</p>
+    <section class="hero">
+
+        <div class="hero-card">
+
+            <h2>
+                Welcome Back,<br>
+                Supervisor 👨‍💼
+            </h2>
+
+            <p>
+                Manage attendance, supervise members, monitor event
+                participation, and control the entire SAMAROH ecosystem
+                through this interactive administration dashboard.
+            </p>
+
         </div>
 
-        <div class="card">
-            <h2>Today's Attendance</h2>
-            <p>98 Members Present</p>
+    </section>
+
+    <!-- DASHBOARD -->
+
+    <section class="dashboard">
+
+        <div class="card blue">
+
+            <div class="icon">👥</div>
+
+            <h3>Total Members</h3>
+
+            <p>
+                Registered users currently participating in the system.
+            </p>
+
+            <div class="value">125</div>
+
         </div>
 
-        <div class="card">
-            <h2>Manage Members</h2>
-            <p>Add, remove and update members.</p>
+        <div class="card pink">
+
+            <div class="icon">✅</div>
+
+            <h3>Today's Attendance</h3>
+
+            <p>
+                Total members marked present today.
+            </p>
+
+            <div class="value">98</div>
+
         </div>
 
-        <div class="card">
-            <h2>Attendance Reports</h2>
-            <p>View reports and analytics.</p>
+        <div class="card purple">
+
+            <div class="icon">📊</div>
+
+            <h3>Reports & Analytics</h3>
+
+            <p>
+                Generate detailed attendance reports and visual analytics.
+            </p>
+
         </div>
 
-    </div>
+        <div class="card orange">
+
+            <div class="icon">🧑‍🤝‍🧑</div>
+
+            <h3>Manage Members</h3>
+
+            <p>
+                Add, remove, edit, or monitor member activities.
+            </p>
+
+        </div>
+
+        <div class="card green">
+
+            <div class="icon">🎉</div>
+
+            <h3>Festival Events</h3>
+
+            <p>
+                Organize events, schedules, celebrations, and gatherings.
+            </p>
+
+        </div>
+
+        <div class="card cyan">
+
+            <div class="icon">🔔</div>
+
+            <h3>Notifications</h3>
+
+            <p>
+                Send announcements and updates to all members instantly.
+            </p>
+
+        </div>
+
+    </section>
 
 </body>
 </html>
