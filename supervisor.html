@@ -1,81 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Supervisor Login</title>
 
-    <style>
+<meta charset="UTF-8">
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial,sans-serif;
-        }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body{
-            height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            background:#f3f4f6;
-        }
+<title>Supervisor Login</title>
 
-        .login-box{
-            width:400px;
-            background:white;
-            padding:40px;
-            border-radius:12px;
-            box-shadow:0 5px 20px rgba(0,0,0,0.2);
-            display:flex;
-            flex-direction:column;
-            gap:20px;
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
-        h1{
-            text-align:center;
-            color:#1e293b;
-        }
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-        input{
-            padding:14px;
-            border:1px solid #cbd5e1;
-            border-radius:8px;
-            font-size:16px;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        button{
-            padding:14px;
-            border:none;
-            border-radius:8px;
-            background:#2563eb;
-            color:white;
-            font-size:16px;
-            cursor:pointer;
-        }
+<style>
 
-        button:hover{
-            background:#1d4ed8;
-        }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-    </style>
+body{
+font-family:'Poppins',sans-serif;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#020617;
+overflow:hidden;
+position:relative;
+}
+
+.background{
+position:absolute;
+inset:0;
+z-index:-1;
+}
+
+.background::before{
+content:'';
+position:absolute;
+inset:0;
+
+background:
+linear-gradient(
+rgba(2,6,23,0.75),
+rgba(15,23,42,0.85)
+),
+
+url('https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1600&q=80');
+
+background-size:cover;
+background-position:center;
+
+filter:blur(2px);
+transform:scale(1.05);
+}
+
+.container{
+width:500px;
+max-width:92%;
+}
+
+.form-box{
+
+background:rgba(255,255,255,0.08);
+
+backdrop-filter:blur(20px);
+
+border:1px solid rgba(255,255,255,0.1);
+
+border-radius:30px;
+
+padding:50px;
+
+box-shadow:
+0 25px 60px rgba(0,0,0,0.45);
+
+text-align:center;
+}
+
+h1{
+color:white;
+font-size:42px;
+margin-bottom:35px;
+}
+
+input{
+
+width:100%;
+
+padding:18px;
+
+margin-bottom:20px;
+
+border:none;
+
+border-radius:16px;
+
+background:rgba(255,255,255,0.1);
+
+border:1px solid rgba(255,255,255,0.12);
+
+color:white;
+
+font-size:15px;
+
+outline:none;
+}
+
+input::placeholder{
+color:#cbd5e1;
+}
+
+button{
+
+width:100%;
+
+padding:18px;
+
+border:none;
+
+border-radius:16px;
+
+background:linear-gradient(
+135deg,
+#2563eb,
+#7c3aed
+);
+
+color:white;
+
+font-size:16px;
+
+font-weight:700;
+
+cursor:pointer;
+
+transition:0.3s;
+}
+
+button:hover{
+transform:translateY(-3px);
+}
+
+</style>
 
 </head>
 
 <body>
 
-    <div class="login-box">
+<div class="background"></div>
 
-        <h1>Supervisor Login</h1>
+<div class="container">
 
-        <input type="text" placeholder="Enter Supervisor ID">
+<div class="form-box">
 
-        <input type="text" placeholder="Enter Name">
+<h1>Supervisor Login</h1>
 
-        <button>Submit</button>
+<input type="text" placeholder="Enter Supervisor ID">
 
-    </div>
+<input type="text" placeholder="Enter Name">
+
+<button
+onclick="window.location.href='./supervisor-dashboard.html'">
+
+Submit
+
+</button>
+
+</div>
+
+</div>
 
 </body>
+
 </html>
