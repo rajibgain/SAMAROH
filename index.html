@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dual Login Page</title>
+    <title>Attendance System</title>
 
     <style>
 
@@ -79,7 +79,6 @@
             font-size:16px;
             cursor:pointer;
             transition:0.3s;
-            z-index:2;
         }
 
         .login-btn:hover{
@@ -89,8 +88,7 @@
         .signin-link{
             color:#d1d5db;
             text-decoration:none;
-            margin-top:-10px;
-            z-index:2;
+            cursor:pointer;
         }
 
         .signin-link:hover{
@@ -126,7 +124,6 @@
             font-size:32px;
             color:#111827;
             margin-bottom:20px;
-            z-index:2;
         }
 
         .member-btn{
@@ -139,7 +136,6 @@
             font-size:16px;
             cursor:pointer;
             transition:0.3s;
-            z-index:2;
         }
 
         .member-btn:hover{
@@ -149,12 +145,66 @@
         .member-signin{
             color:#4b5563;
             text-decoration:none;
-            margin-top:-10px;
-            z-index:2;
+            cursor:pointer;
         }
 
         .member-signin:hover{
             text-decoration:underline;
+        }
+
+        /* FORM PAGE */
+
+        .form-page{
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:#f3f4f6;
+        }
+
+        .form-box{
+            width:420px;
+            background:white;
+            padding:40px;
+            border-radius:12px;
+            box-shadow:0 5px 20px rgba(0,0,0,0.2);
+            display:flex;
+            flex-direction:column;
+            gap:20px;
+        }
+
+        .form-box h1{
+            text-align:center;
+            color:#1e293b;
+        }
+
+        .form-box input{
+            padding:14px;
+            border:1px solid #cbd5e1;
+            border-radius:8px;
+            font-size:16px;
+        }
+
+        .submit-btn{
+            padding:14px;
+            border:none;
+            border-radius:8px;
+            background:#2563eb;
+            color:white;
+            font-size:16px;
+            cursor:pointer;
+        }
+
+        .submit-btn:hover{
+            background:#1d4ed8;
+        }
+
+        .back-btn{
+            background:#111827;
+        }
+
+        .back-btn:hover{
+            background:#000000;
         }
 
     </style>
@@ -177,7 +227,9 @@
                 Login as Supervisor
             </button>
 
-            <a href="#" class="signin-link">Sign In</a>
+            <a class="signin-link" onclick="showSupervisorSignup()">
+                Sign Up
+            </a>
 
         </div>
 
@@ -189,11 +241,13 @@
 
             <h1>Members Panel</h1>
 
-            <button class="member-btn">
+            <button class="member-btn" onclick="showMemberLogin()">
                 Login as Member
             </button>
 
-            <a href="#" class="member-signin">Sign In</a>
+            <a class="member-signin">
+                Sign In
+            </a>
 
         </div>
 
@@ -201,75 +255,95 @@
 
     <script>
 
+        function goHome(){
+            location.reload();
+        }
+
         function showSupervisorLogin(){
 
             document.body.innerHTML = `
 
-            <div style="
-                height:100vh;
-                display:flex;
-                justify-content:center;
-                align-items:center;
-                background:#f3f4f6;
-                font-family:Arial,sans-serif;
-            ">
+            <div class="form-page">
 
-                <div style="
-                    width:400px;
-                    background:white;
-                    padding:40px;
-                    border-radius:12px;
-                    box-shadow:0 5px 20px rgba(0,0,0,0.2);
-                    display:flex;
-                    flex-direction:column;
-                    gap:20px;
-                ">
+                <div class="form-box">
 
-                    <h1 style="
-                        text-align:center;
-                        color:#1e293b;
-                    ">
-                        Supervisor Login
-                    </h1>
+                    <h1>Supervisor Login</h1>
 
-                    <input
-                        type="text"
-                        placeholder="Enter Supervisor ID"
-                        style="
-                            padding:14px;
-                            border:1px solid #cbd5e1;
-                            border-radius:8px;
-                            font-size:16px;
-                        "
-                    >
+                    <input type="text" placeholder="Supervisor ID">
 
-                    <input
-                        type="text"
-                        placeholder="Enter Name"
-                        style="
-                            padding:14px;
-                            border:1px solid #cbd5e1;
-                            border-radius:8px;
-                            font-size:16px;
-                        "
-                    >
+                    <input type="text" placeholder="Supervisor Name">
 
-                    <button style="
-                        padding:14px;
-                        border:none;
-                        border-radius:8px;
-                        background:#2563eb;
-                        color:white;
-                        font-size:16px;
-                        cursor:pointer;
-                    ">
+                    <button class="submit-btn">
                         Submit
+                    </button>
+
+                    <button class="submit-btn back-btn" onclick="goHome()">
+                        Back
                     </button>
 
                 </div>
 
             </div>
+            `;
+        }
 
+        function showSupervisorSignup(){
+
+            document.body.innerHTML = `
+
+            <div class="form-page">
+
+                <div class="form-box">
+
+                    <h1>Supervisor Sign Up</h1>
+
+                    <input type="text" placeholder="Full Name">
+
+                    <input type="email" placeholder="Email">
+
+                    <input type="text" placeholder="Create Supervisor ID">
+
+                    <input type="password" placeholder="Create Password">
+
+                    <button class="submit-btn">
+                        Create Account
+                    </button>
+
+                    <button class="submit-btn back-btn" onclick="goHome()">
+                        Back
+                    </button>
+
+                </div>
+
+            </div>
+            `;
+        }
+
+        function showMemberLogin(){
+
+            document.body.innerHTML = `
+
+            <div class="form-page">
+
+                <div class="form-box">
+
+                    <h1>Member Login</h1>
+
+                    <input type="text" placeholder="Member ID">
+
+                    <input type="password" placeholder="Password">
+
+                    <button class="submit-btn">
+                        Login
+                    </button>
+
+                    <button class="submit-btn back-btn" onclick="goHome()">
+                        Back
+                    </button>
+
+                </div>
+
+            </div>
             `;
         }
 
