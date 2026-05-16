@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supervisor Dashboard</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial,sans-serif;
+        }
+
+        body{
+            background:#f3f4f6;
+        }
+
+        .navbar{
+            width:100%;
+            background:#1e293b;
+            color:white;
+            padding:20px 40px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .navbar h1{
+            font-size:28px;
+        }
+
+        .logout-btn{
+            padding:10px 20px;
+            border:none;
+            border-radius:8px;
+            background:#ef4444;
+            color:white;
+            cursor:pointer;
+            font-size:15px;
+        }
+
+        .logout-btn:hover{
+            background:#dc2626;
+        }
+
+        .dashboard{
+            padding:40px;
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:25px;
+        }
+
+        .card{
+            background:white;
+            padding:30px;
+            border-radius:12px;
+            box-shadow:0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .card h2{
+            margin-bottom:15px;
+            color:#111827;
+        }
+
+        .card p{
+            color:#4b5563;
+            line-height:1.5;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="navbar">
+
+        <h1>Supervisor Dashboard</h1>
+
+        <button class="logout-btn"
+        onclick="window.location.href='./index.html'">
+
+            Logout
+
+        </button>
+
+    </div>
+
+    <div class="dashboard">
+
+        <div class="card">
+            <h2>Total Members</h2>
+            <p>125 Registered Members</p>
+        </div>
+
+        <div class="card">
+            <h2>Today's Attendance</h2>
+            <p>98 Members Present</p>
+        </div>
+
+        <div class="card">
+            <h2>Manage Members</h2>
+            <p>Add, remove and update member information.</p>
+        </div>
+
+        <div class="card">
+            <h2>Attendance Reports</h2>
+            <p>View detailed attendance analytics and reports.</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
