@@ -1,13 +1,175 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>samaroh</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dual Login Page</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
+
+        body{
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:#f3f4f6;
+        }
+
+        .container{
+            width:900px;
+            height:500px;
+            display:flex;
+            border-radius:12px;
+            overflow:hidden;
+            box-shadow:0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        /* EMOJI STYLING */
+        .panel-emoji {
+            font-size: 64px;
+            margin-bottom: -10px;
+            z-index: 2; /* Ensures emojis stay above the background */
+        }
+
+        /* LEFT SECTION (Supervisor) */
+        .left-section{
+            width:50%;
+            color:white;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            gap:25px;
+            padding:40px;
+            position: relative;
+            
+            /* Faded Background Implementation */
+            /* Linear gradient fades from solid dark blue at the top to a semi-transparent blue at the bottom */
+            background: linear-gradient(to bottom, #1e293b 40%, rgba(30, 41, 59, 0.85) 100%), 
+                        url('https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=500') no-repeat bottom center;
+            background-size: cover;
+        }
+
+        .left-section h1{
+            font-size:32px;
+            margin-bottom:20px;
+            z-index: 2;
+        }
+
+        .login-btn{
+            width:250px;
+            padding:15px;
+            border:none;
+            border-radius:8px;
+            background:#3b82f6;
+            color:white;
+            font-size:16px;
+            cursor:pointer;
+            transition:0.3s;
+            z-index: 2;
+        }
+
+        .login-btn:hover{
+            background:#2563eb;
+        }
+
+        .signin-link{
+            color:#d1d5db;
+            text-decoration:none;
+            margin-top:-10px;
+            margin-bottom:20px;
+            z-index: 2;
+        }
+
+        .signin-link:hover{
+            text-decoration:underline;
+        }
+
+        /* RIGHT SECTION (Members) */
+        .right-section{
+            width:50%;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            gap:25px;
+            padding:40px;
+            position: relative;
+            
+            /* Faded Background Implementation */
+            /* Linear gradient fades from solid white at the top to a highly transparent white at the bottom */
+            background: linear-gradient(to bottom, #ffffff 40%, rgba(255, 255, 255, 0.9) 100%), 
+                        url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=500') no-repeat bottom center;
+            background-size: cover;
+        }
+
+        .right-section h1{
+            font-size:32px;
+            color:#111827;
+            margin-bottom:20px;
+            z-index: 2;
+        }
+
+        .member-btn{
+            width:250px;
+            padding:15px;
+            border:none;
+            border-radius:8px;
+            background:#111827;
+            color:white;
+            font-size:16px;
+            cursor:pointer;
+            transition:0.3s;
+            z-index: 2;
+        }
+
+        .member-btn:hover{
+            background:#000000;
+        }
+
+        .member-signin{
+            color:#4b5563;
+            text-decoration:none;
+            margin-top:-10px;
+            z-index: 2;
+        }
+
+        .member-signin:hover{
+            text-decoration:underline;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- LEFT HALF -->
+        <div class="left-section">
+            <div class="panel-emoji">👨‍💼</div>
+            <h1>Supervisor Panel</h1>
+            <button class="login-btn"
+            onclick="window.location.href='supervisor.html'">
+            Login as Supervisor
+            </button>
+            <a href="#" class="signin-link">Sign In</a>
+        </div>
+
+        <!-- RIGHT HALF -->
+        <div class="right-section">
+            <div class="panel-emoji">👥</div>
+            <h1>Members Panel</h1>
+            <button class="member-btn">Login as Member</button>
+            <a href="#" class="member-signin">Sign In</a>
+        </div>
+
+    </div>
+
+</body>
 </html>
