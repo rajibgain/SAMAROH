@@ -26,9 +26,9 @@
         body{
             font-family:'Poppins',sans-serif;
             min-height:100vh;
-            overflow:hidden;
-            position:relative;
+            overflow-x:hidden;
             background:#020617;
+            position:relative;
         }
 
         /* BACKGROUND */
@@ -37,6 +37,7 @@
             position:fixed;
             inset:0;
             z-index:-10;
+            overflow:hidden;
         }
 
         .background::before{
@@ -50,42 +51,65 @@
             background:
 
             linear-gradient(
-                rgba(2,6,23,0.7),
-                rgba(15,23,42,0.85)
+                rgba(2,6,23,0.72),
+                rgba(15,23,42,0.84)
             ),
 
-            url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1600&q=80');
+            url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1800&q=80');
 
             background-size:cover;
             background-position:center;
 
-            transform:scale(1.05);
-
             filter:blur(2px);
+
+            transform:scale(1.05);
+        }
+
+        .festival-overlay{
+            position:absolute;
+            inset:0;
+
+            background:
+
+            radial-gradient(circle at top left,
+            rgba(255,0,128,0.35),
+            transparent 30%),
+
+            radial-gradient(circle at top right,
+            rgba(0,255,255,0.25),
+            transparent 30%),
+
+            radial-gradient(circle at bottom left,
+            rgba(255,165,0,0.3),
+            transparent 30%),
+
+            radial-gradient(circle at bottom right,
+            rgba(139,92,246,0.35),
+            transparent 30%);
         }
 
         .light{
             position:absolute;
             border-radius:50%;
             filter:blur(90px);
-            opacity:0.45;
+            opacity:0.5;
             animation:float 10s infinite ease-in-out;
         }
 
         .light1{
-            width:260px;
-            height:260px;
+            width:280px;
+            height:280px;
             background:#3b82f6;
-            top:-60px;
-            left:-60px;
+            top:-50px;
+            left:-50px;
         }
 
         .light2{
             width:240px;
             height:240px;
             background:#ec4899;
-            right:-50px;
             top:20%;
+            right:-50px;
             animation-delay:2s;
         }
 
@@ -93,9 +117,18 @@
             width:220px;
             height:220px;
             background:#8b5cf6;
-            bottom:-60px;
-            left:35%;
+            bottom:-50px;
+            left:30%;
             animation-delay:4s;
+        }
+
+        .light4{
+            width:250px;
+            height:250px;
+            background:#f97316;
+            bottom:-60px;
+            right:20%;
+            animation-delay:6s;
         }
 
         @keyframes float{
@@ -116,7 +149,6 @@
         /* MAIN */
 
         .main-container{
-
             width:100%;
             min-height:100vh;
 
@@ -129,39 +161,40 @@
 
         .glass-card{
 
-            width:1300px;
+            width:1400px;
             max-width:100%;
 
-            min-height:700px;
+            min-height:760px;
 
             display:flex;
 
             overflow:hidden;
 
-            border-radius:35px;
+            border-radius:36px;
 
             backdrop-filter:blur(20px);
 
             background:rgba(255,255,255,0.08);
 
-            border:1px solid rgba(255,255,255,0.1);
+            border:1px solid rgba(255,255,255,0.12);
 
             box-shadow:
-            0 25px 60px rgba(0,0,0,0.5);
+            0 25px 60px rgba(0,0,0,0.55);
         }
 
         .panel{
 
             width:50%;
 
-            padding:70px 50px;
+            position:relative;
 
             display:flex;
-
             justify-content:center;
             align-items:center;
 
-            position:relative;
+            padding:70px 55px;
+
+            overflow:hidden;
         }
 
         .panel::before{
@@ -171,7 +204,11 @@
             position:absolute;
 
             inset:0;
+
+            z-index:0;
         }
+
+        /* SUPERVISOR */
 
         .left-panel::before{
 
@@ -187,6 +224,8 @@
             background-size:cover;
             background-position:center;
         }
+
+        /* MEMBER */
 
         .right-panel::before{
 
@@ -207,6 +246,44 @@
             position:relative;
             z-index:2;
             text-align:center;
+            width:100%;
+        }
+
+        .badge{
+
+            display:inline-block;
+
+            padding:10px 18px;
+
+            border-radius:999px;
+
+            margin-bottom:28px;
+
+            font-size:13px;
+
+            font-weight:600;
+
+            letter-spacing:1px;
+
+            backdrop-filter:blur(10px);
+        }
+
+        .left-panel .badge{
+
+            background:rgba(59,130,246,0.18);
+
+            color:#dbeafe;
+
+            border:1px solid rgba(255,255,255,0.15);
+        }
+
+        .right-panel .badge{
+
+            background:rgba(15,23,42,0.08);
+
+            color:#0f172a;
+
+            border:1px solid rgba(15,23,42,0.08);
         }
 
         .emoji{
@@ -215,9 +292,10 @@
         }
 
         h1{
-            font-size:54px;
-            line-height:1.1;
-            margin-bottom:20px;
+            font-size:58px;
+            line-height:1.05;
+            margin-bottom:22px;
+            font-weight:800;
         }
 
         .left-panel h1{
@@ -230,9 +308,10 @@
 
         p{
             font-size:17px;
-            line-height:1.8;
+            line-height:1.9;
             margin-bottom:40px;
-            max-width:420px;
+            max-width:470px;
+            margin-inline:auto;
         }
 
         .left-panel p{
@@ -245,7 +324,7 @@
 
         .btn{
 
-            width:300px;
+            width:320px;
             max-width:100%;
 
             padding:18px;
@@ -260,7 +339,9 @@
 
             cursor:pointer;
 
-            transition:0.3s;
+            transition:0.35s;
+
+            margin-bottom:18px;
         }
 
         .supervisor-btn{
@@ -268,10 +349,14 @@
             background:linear-gradient(
                 135deg,
                 #3b82f6,
+                #2563eb,
                 #7c3aed
             );
 
             color:white;
+
+            box-shadow:
+            0 15px 35px rgba(59,130,246,0.45);
         }
 
         .member-btn{
@@ -286,10 +371,37 @@
         }
 
         .btn:hover{
-            transform:translateY(-4px);
+            transform:
+            translateY(-5px)
+            scale(1.02);
         }
 
-        @media(max-width:1000px){
+        .link-btn{
+
+            text-decoration:none;
+
+            font-size:15px;
+
+            font-weight:600;
+
+            cursor:pointer;
+
+            transition:0.3s;
+        }
+
+        .left-panel .link-btn{
+            color:#dbeafe;
+        }
+
+        .right-panel .link-btn{
+            color:#1e293b;
+        }
+
+        .link-btn:hover{
+            opacity:0.7;
+        }
+
+        @media(max-width:1100px){
 
             .glass-card{
                 flex-direction:column;
@@ -297,7 +409,22 @@
 
             .panel{
                 width:100%;
-                min-height:500px;
+                min-height:550px;
+            }
+        }
+
+        @media(max-width:700px){
+
+            .main-container{
+                padding:20px;
+            }
+
+            h1{
+                font-size:42px;
+            }
+
+            .panel{
+                padding:50px 30px;
             }
         }
 
@@ -309,9 +436,12 @@
 
     <div class="background">
 
+        <div class="festival-overlay"></div>
+
         <div class="light light1"></div>
         <div class="light light2"></div>
         <div class="light light3"></div>
+        <div class="light light4"></div>
 
     </div>
 
@@ -325,14 +455,21 @@
 
                 <div class="content">
 
+                    <div class="badge">
+                        ✨ SAMAROH MANAGEMENT
+                    </div>
+
                     <div class="emoji">👨‍💼</div>
 
-                    <h1>Supervisor Portal</h1>
+                    <h1>
+                        Supervisor<br>
+                        Portal
+                    </h1>
 
                     <p>
-                        Manage attendance, monitor activities,
-                        control reports and supervise the entire
-                        SAMAROH ecosystem.
+                        Manage attendance, supervise members,
+                        monitor activities, and control the entire
+                        SAMAROH ecosystem through the administration panel.
                     </p>
 
                     <button class="btn supervisor-btn"
@@ -341,6 +478,15 @@
                         Login as Supervisor
 
                     </button>
+
+                    <br>
+
+                    <a class="link-btn"
+                    href="./supervisor-signup.html">
+
+                        Create Supervisor Account
+
+                    </a>
 
                 </div>
 
@@ -352,13 +498,21 @@
 
                 <div class="content">
 
-                    <div class="emoji">🎉</div>
+                    <div class="badge">
+                        🎉 SAMAROH MEMBER ACCESS
+                    </div>
 
-                    <h1>Member Portal</h1>
+                    <div class="emoji">🎭</div>
+
+                    <h1>
+                        Member<br>
+                        Portal
+                    </h1>
 
                     <p>
                         Access attendance, events, celebrations,
-                        and stay connected with SAMAROH activities.
+                        and stay connected with the SAMAROH
+                        community experience.
                     </p>
 
                     <button class="btn member-btn"
@@ -367,6 +521,15 @@
                         Login as Member
 
                     </button>
+
+                    <br>
+
+                    <a class="link-btn"
+                    href="./member-signup.html">
+
+                        Create Member Account
+
+                    </a>
 
                 </div>
 
