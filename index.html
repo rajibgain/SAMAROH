@@ -11,7 +11,7 @@
             margin:0;
             padding:0;
             box-sizing:border-box;
-            font-family:Arial, sans-serif;
+            font-family:Arial,sans-serif;
         }
 
         body{
@@ -51,9 +51,11 @@
             position:relative;
 
             background:
-            linear-gradient(to bottom,
-            #1e293b 40%,
-            rgba(30,41,59,0.85) 100%),
+            linear-gradient(
+                to bottom,
+                #1e293b 40%,
+                rgba(30,41,59,0.85) 100%
+            ),
 
             url('https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=500')
             no-repeat bottom center;
@@ -91,6 +93,10 @@
             z-index:2;
         }
 
+        .signin-link:hover{
+            text-decoration:underline;
+        }
+
         /* RIGHT SECTION */
 
         .right-section{
@@ -104,9 +110,11 @@
             position:relative;
 
             background:
-            linear-gradient(to bottom,
-            #ffffff 40%,
-            rgba(255,255,255,0.9) 100%),
+            linear-gradient(
+                to bottom,
+                #ffffff 40%,
+                rgba(255,255,255,0.9) 100%
+            ),
 
             url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=500')
             no-repeat bottom center;
@@ -145,6 +153,10 @@
             z-index:2;
         }
 
+        .member-signin:hover{
+            text-decoration:underline;
+        }
+
     </style>
 
 </head>
@@ -153,7 +165,7 @@
 
     <div class="container">
 
-        <!-- LEFT SIDE -->
+        <!-- LEFT SECTION -->
 
         <div class="left-section">
 
@@ -161,18 +173,15 @@
 
             <h1>Supervisor Panel</h1>
 
-            <button class="login-btn"
-            onclick="window.location.href='./supervisor.html'">
-
+            <button class="login-btn" onclick="showSupervisorLogin()">
                 Login as Supervisor
-
             </button>
 
             <a href="#" class="signin-link">Sign In</a>
 
         </div>
 
-        <!-- RIGHT SIDE -->
+        <!-- RIGHT SECTION -->
 
         <div class="right-section">
 
@@ -181,9 +190,7 @@
             <h1>Members Panel</h1>
 
             <button class="member-btn">
-
                 Login as Member
-
             </button>
 
             <a href="#" class="member-signin">Sign In</a>
@@ -191,6 +198,82 @@
         </div>
 
     </div>
+
+    <script>
+
+        function showSupervisorLogin(){
+
+            document.body.innerHTML = `
+
+            <div style="
+                height:100vh;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                background:#f3f4f6;
+                font-family:Arial,sans-serif;
+            ">
+
+                <div style="
+                    width:400px;
+                    background:white;
+                    padding:40px;
+                    border-radius:12px;
+                    box-shadow:0 5px 20px rgba(0,0,0,0.2);
+                    display:flex;
+                    flex-direction:column;
+                    gap:20px;
+                ">
+
+                    <h1 style="
+                        text-align:center;
+                        color:#1e293b;
+                    ">
+                        Supervisor Login
+                    </h1>
+
+                    <input
+                        type="text"
+                        placeholder="Enter Supervisor ID"
+                        style="
+                            padding:14px;
+                            border:1px solid #cbd5e1;
+                            border-radius:8px;
+                            font-size:16px;
+                        "
+                    >
+
+                    <input
+                        type="text"
+                        placeholder="Enter Name"
+                        style="
+                            padding:14px;
+                            border:1px solid #cbd5e1;
+                            border-radius:8px;
+                            font-size:16px;
+                        "
+                    >
+
+                    <button style="
+                        padding:14px;
+                        border:none;
+                        border-radius:8px;
+                        background:#2563eb;
+                        color:white;
+                        font-size:16px;
+                        cursor:pointer;
+                    ">
+                        Submit
+                    </button>
+
+                </div>
+
+            </div>
+
+            `;
+        }
+
+    </script>
 
 </body>
 </html>
