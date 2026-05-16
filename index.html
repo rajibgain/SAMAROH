@@ -66,7 +66,6 @@
         .left-section h1{
             font-size:32px;
             margin-bottom:20px;
-            z-index:2;
         }
 
         .login-btn{
@@ -215,7 +214,7 @@
 
     <div class="container">
 
-        <!-- LEFT SECTION -->
+        <!-- SUPERVISOR SECTION -->
 
         <div class="left-section">
 
@@ -233,7 +232,7 @@
 
         </div>
 
-        <!-- RIGHT SECTION -->
+        <!-- MEMBER SECTION -->
 
         <div class="right-section">
 
@@ -245,8 +244,8 @@
                 Login as Member
             </button>
 
-            <a class="member-signin">
-                Sign In
+            <a class="member-signin" onclick="showMemberSignup()">
+                Sign Up
             </a>
 
         </div>
@@ -258,6 +257,8 @@
         function goHome(){
             location.reload();
         }
+
+        /* SUPERVISOR LOGIN */
 
         function showSupervisorLogin(){
 
@@ -286,6 +287,8 @@
             </div>
             `;
         }
+
+        /* SUPERVISOR SIGNUP */
 
         function showSupervisorSignup(){
 
@@ -319,6 +322,8 @@
             `;
         }
 
+        /* MEMBER LOGIN */
+
         function showMemberLogin(){
 
             document.body.innerHTML = `
@@ -335,6 +340,40 @@
 
                     <button class="submit-btn">
                         Login
+                    </button>
+
+                    <button class="submit-btn back-btn" onclick="goHome()">
+                        Back
+                    </button>
+
+                </div>
+
+            </div>
+            `;
+        }
+
+        /* MEMBER SIGNUP */
+
+        function showMemberSignup(){
+
+            document.body.innerHTML = `
+
+            <div class="form-page">
+
+                <div class="form-box">
+
+                    <h1>Member Sign Up</h1>
+
+                    <input type="text" placeholder="Full Name">
+
+                    <input type="email" placeholder="Email">
+
+                    <input type="text" placeholder="Unique UID">
+
+                    <input type="password" placeholder="Create Password">
+
+                    <button class="submit-btn">
+                        Create Account
                     </button>
 
                     <button class="submit-btn back-btn" onclick="goHome()">
