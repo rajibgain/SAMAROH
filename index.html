@@ -1,359 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAMAROH Attendance System</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <style>
-
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-        }
-
-        body{
-            font-family:'Poppins',sans-serif;
-            min-height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            overflow:hidden;
-            background:#020617;
-            position:relative;
-        }
-
-        /* BACKGROUND */
-
-        .background{
-            position:absolute;
-            width:100%;
-            height:100%;
-            top:0;
-            left:0;
-            z-index:0;
-            overflow:hidden;
-        }
-
-        .background::before{
-            content:'';
-            position:absolute;
-            width:100%;
-            height:100%;
-            background:
-            linear-gradient(rgba(2,6,23,0.82), rgba(2,6,23,0.9)),
-            url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80');
-            background-size:cover;
-            background-position:center;
-            filter:blur(2px);
-            transform:scale(1.05);
-        }
-
-        .circle1,
-        .circle2,
-        .circle3{
-            position:absolute;
-            border-radius:50%;
-            filter:blur(90px);
-            opacity:0.35;
-        }
-
-        .circle1{
-            width:300px;
-            height:300px;
-            background:#2563eb;
-            top:-80px;
-            left:-50px;
-        }
-
-        .circle2{
-            width:250px;
-            height:250px;
-            background:#9333ea;
-            bottom:-80px;
-            right:-50px;
-        }
-
-        .circle3{
-            width:180px;
-            height:180px;
-            background:#06b6d4;
-            top:40%;
-            left:45%;
-        }
-
-        /* MAIN CARD */
-
-        .main-container{
-            position:relative;
-            z-index:2;
-            width:1100px;
-            max-width:95%;
-            min-height:620px;
-            display:flex;
-            border-radius:28px;
-            overflow:hidden;
-            backdrop-filter:blur(18px);
-            background:rgba(255,255,255,0.08);
-            border:1px solid rgba(255,255,255,0.12);
-            box-shadow:0 25px 60px rgba(0,0,0,0.45);
-        }
-
-        /* COMMON PANEL */
-
-        .panel{
-            width:50%;
-            padding:60px 45px;
-            display:flex;
-            flex-direction:column;
-            justify-content:center;
-            align-items:center;
-            position:relative;
-            overflow:hidden;
-        }
-
-        .panel::before{
-            content:'';
-            position:absolute;
-            inset:0;
-            z-index:0;
-        }
-
-        .panel-content{
-            position:relative;
-            z-index:2;
-            text-align:center;
-            width:100%;
-        }
-
-        /* SUPERVISOR PANEL */
-
-        .supervisor-panel::before{
-            background:
-            linear-gradient(
-                180deg,
-                rgba(15,23,42,0.9),
-                rgba(30,41,59,0.88)
-            ),
-            url('https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1000&q=80');
-            background-size:cover;
-            background-position:center;
-        }
-
-        /* MEMBER PANEL */
-
-        .member-panel::before{
-            background:
-            linear-gradient(
-                180deg,
-                rgba(255,255,255,0.92),
-                rgba(241,245,249,0.92)
-            ),
-            url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=80');
-            background-size:cover;
-            background-position:center;
-        }
-
-        .logo{
-            font-size:18px;
-            font-weight:600;
-            letter-spacing:2px;
-            margin-bottom:30px;
-        }
-
-        .supervisor-panel .logo{
-            color:#bfdbfe;
-        }
-
-        .member-panel .logo{
-            color:#1e293b;
-        }
-
-        .emoji{
-            font-size:78px;
-            margin-bottom:18px;
-        }
-
-        h1{
-            font-size:42px;
-            margin-bottom:18px;
-            line-height:1.1;
-        }
-
-        .supervisor-panel h1{
-            color:white;
-        }
-
-        .member-panel h1{
-            color:#0f172a;
-        }
-
-        .subtitle{
-            font-size:15px;
-            line-height:1.8;
-            margin-bottom:35px;
-            max-width:360px;
-        }
-
-        .supervisor-panel .subtitle{
-            color:#cbd5e1;
-        }
-
-        .member-panel .subtitle{
-            color:#334155;
-        }
-
-        .button{
-            width:280px;
-            padding:16px;
-            border:none;
-            border-radius:14px;
-            font-size:16px;
-            font-weight:600;
-            cursor:pointer;
-            transition:0.35s;
-            margin-bottom:18px;
-        }
-
-        .supervisor-btn{
-            background:linear-gradient(135deg,#3b82f6,#2563eb);
-            color:white;
-            box-shadow:0 10px 25px rgba(37,99,235,0.4);
-        }
-
-        .supervisor-btn:hover{
-            transform:translateY(-3px);
-            box-shadow:0 15px 30px rgba(37,99,235,0.5);
-        }
-
-        .member-btn{
-            background:linear-gradient(135deg,#111827,#0f172a);
-            color:white;
-            box-shadow:0 10px 25px rgba(15,23,42,0.25);
-        }
-
-        .member-btn:hover{
-            transform:translateY(-3px);
-        }
-
-        .link-btn{
-            color:inherit;
-            text-decoration:none;
-            cursor:pointer;
-            font-size:15px;
-            font-weight:500;
-            transition:0.3s;
-        }
-
-        .link-btn:hover{
-            opacity:0.7;
-        }
-
-        /* FORM PAGE */
-
-        .form-page{
-            width:100%;
-            min-height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            padding:40px 20px;
-            position:relative;
-            z-index:2;
-        }
-
-        .form-box{
-            width:450px;
-            background:rgba(255,255,255,0.12);
-            backdrop-filter:blur(18px);
-            border:1px solid rgba(255,255,255,0.15);
-            border-radius:24px;
-            padding:45px;
-            box-shadow:0 25px 60px rgba(0,0,0,0.35);
-        }
-
-        .form-box h1{
-            text-align:center;
-            color:white;
-            margin-bottom:30px;
-            font-size:34px;
-        }
-
-        .form-box input{
-            width:100%;
-            padding:16px;
-            margin-bottom:18px;
-            border:none;
-            border-radius:12px;
-            background:rgba(255,255,255,0.12);
-            color:white;
-            font-size:15px;
-            outline:none;
-            border:1px solid rgba(255,255,255,0.15);
-        }
-
-        .form-box input::placeholder{
-            color:#cbd5e1;
-        }
-
-        .submit-btn,
-        .back-btn{
-            width:100%;
-            padding:16px;
-            border:none;
-            border-radius:12px;
-            font-size:15px;
-            font-weight:600;
-            cursor:pointer;
-            margin-top:10px;
-            transition:0.3s;
-        }
-
-        .submit-btn{
-            background:linear-gradient(135deg,#3b82f6,#2563eb);
-            color:white;
-        }
-
-        .submit-btn:hover{
-            transform:translateY(-2px);
-        }
-
-        .back-btn{
-            background:#0f172a;
-            color:white;
-        }
-
         .back-btn:hover{
             background:#020617;
         }
 
-        @media(max-width:900px){
-
-            body{
-                overflow:auto;
-            }
+        @media(max-width:1100px){
 
             .main-container{
                 flex-direction:column;
-                width:95%;
             }
 
             .panel{
                 width:100%;
-                min-height:500px;
+                min-height:550px;
+            }
+        }
+
+        @media(max-width:700px){
+
+            .hero{
+                padding:20px;
             }
 
             h1{
-                font-size:34px;
+                font-size:42px;
             }
 
-            .button{
-                width:100%;
+            .panel{
+                padding:50px 30px;
+            }
+
+            .form-box{
+                padding:35px 25px;
             }
         }
 
@@ -362,204 +39,29 @@
 <body>
 
     <div class="background">
-        <div class="circle1"></div>
-        <div class="circle2"></div>
-        <div class="circle3"></div>
+        <div class="festival-overlay"></div>
+        <div class="floating-light light1"></div>
+        <div class="floating-light light2"></div>
+        <div class="floating-light light3"></div>
+        <div class="floating-light light4"></div>
     </div>
 
-    <div class="main-container">
+    <section class="hero">
 
-        <!-- SUPERVISOR PANEL -->
+        <div class="main-container">
 
-        <div class="panel supervisor-panel">
+            <!-- SUPERVISOR PANEL -->
 
-            <div class="panel-content">
+            <div class="panel">
 
-                <div class="logo">SAMAROH ADMIN</div>
-
-                <div class="emoji">👨‍💼</div>
-
-                <h1>Supervisor<br>Portal</h1>
-
-                <p class="subtitle">
-                    Manage attendance, monitor members, generate reports,
-                    and supervise the entire system from one dashboard.
-                </p>
-
-                <button class="button supervisor-btn"
-                onclick="showSupervisorLogin()">
-
-                    Login as Supervisor
-
-                </button>
-
-                <div>
-                    <a class="link-btn"
-                    onclick="showSupervisorSignup()">
-                        Create Supervisor Account
-                    </a>
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- MEMBER PANEL -->
-
-        <div class="panel member-panel">
-
-            <div class="panel-content">
-
-                <div class="logo">SAMAROH MEMBER</div>
-
-                <div class="emoji">👥</div>
-
-                <h1>Member<br>Portal</h1>
-
-                <p class="subtitle">
-                    Access attendance records, join events, and stay connected
-                    with the organization activities and updates.
-                </p>
-
-                <button class="button member-btn"
-                onclick="showMemberLogin()">
-
-                    Login as Member
-
-                </button>
-
-                <div>
-                    <a class="link-btn"
-                    onclick="showMemberSignup()">
-                        Create Member Account
-                    </a>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <script>
-
-        function goHome(){
-            location.reload();
-        }
-
-        function createForm(title, fields, redirectPage, buttonText){
-
-            let inputs = '';
-
-            fields.forEach(field => {
-                inputs += `
-                <input
-                    type="${field.type}"
-                    placeholder="${field.placeholder}"
-                >`;
-            });
-
-            document.body.innerHTML = `
-
-            <div class="background">
-                <div class="circle1"></div>
-                <div class="circle2"></div>
-                <div class="circle3"></div>
-            </div>
-
-            <div class="form-page">
+                <h1>Supervisor Login</h1>
 
                 <div class="form-box">
 
-                    <h1>${title}</h1>
+                    <input type="text" placeholder="Enter Supervisor ID">
 
-                    ${inputs}
+                    <input type="text" placeholder="Enter Name">
 
-                    <button class="submit-btn"
-                    onclick="window.location.href='${redirectPage}'">
-
-                        ${buttonText}
-
-                    </button>
-
-                    <button class="back-btn"
-                    onclick="goHome()">
-
-                        Back
-
-                    </button>
+                    <button onclick="window.location.href='./supervisor-dashboard.html'">Submit</button>
 
                 </div>
-
-            </div>
-            `;
-        }
-
-        /* SUPERVISOR LOGIN */
-
-        function showSupervisorLogin(){
-
-            createForm(
-                'Supervisor Login',
-                [
-                    {type:'text', placeholder:'Supervisor ID'},
-                    {type:'text', placeholder:'Supervisor Name'}
-                ],
-                './supervisor-dashboard.html',
-                'Submit'
-            );
-        }
-
-        /* SUPERVISOR SIGNUP */
-
-        function showSupervisorSignup(){
-
-            createForm(
-                'Supervisor Sign Up',
-                [
-                    {type:'text', placeholder:'Full Name'},
-                    {type:'email', placeholder:'Email Address'},
-                    {type:'text', placeholder:'Create Supervisor ID'},
-                    {type:'password', placeholder:'Create Password'}
-                ],
-                './supervisor-dashboard.html',
-                'Create Account'
-            );
-        }
-
-        /* MEMBER LOGIN */
-
-        function showMemberLogin(){
-
-            createForm(
-                'Member Login',
-                [
-                    {type:'text', placeholder:'Member ID'},
-                    {type:'password', placeholder:'Password'}
-                ],
-                './member-dashboard.html',
-                'Login'
-            );
-        }
-
-        /* MEMBER SIGNUP */
-
-        function showMemberSignup(){
-
-            createForm(
-                'Member Sign Up',
-                [
-                    {type:'text', placeholder:'Full Name'},
-                    {type:'email', placeholder:'Email Address'},
-                    {type:'text', placeholder:'Unique UID'},
-                    {type:'password', placeholder:'Create Password'}
-                ],
-                './member-dashboard.html',
-                'Create Account'
-            );
-        }
-
-    </script>
-
-</body>
-</html>
