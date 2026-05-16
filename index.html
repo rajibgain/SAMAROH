@@ -34,10 +34,9 @@
         .panel-emoji{
             font-size:64px;
             margin-bottom:-10px;
-            z-index:2;
         }
 
-        /* LEFT SECTION */
+        /* SUPERVISOR SECTION */
 
         .left-section{
             width:50%;
@@ -48,7 +47,6 @@
             align-items:center;
             gap:25px;
             padding:40px;
-            position:relative;
 
             background:
             linear-gradient(
@@ -58,14 +56,13 @@
             ),
 
             url('https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=500')
-            no-repeat bottom center;
+            no-repeat center center;
 
             background-size:cover;
         }
 
         .left-section h1{
             font-size:32px;
-            margin-bottom:20px;
         }
 
         .login-btn{
@@ -86,15 +83,15 @@
 
         .signin-link{
             color:#d1d5db;
-            text-decoration:none;
             cursor:pointer;
+            text-decoration:none;
         }
 
         .signin-link:hover{
             text-decoration:underline;
         }
 
-        /* RIGHT SECTION */
+        /* MEMBER SECTION */
 
         .right-section{
             width:50%;
@@ -104,7 +101,6 @@
             align-items:center;
             gap:25px;
             padding:40px;
-            position:relative;
 
             background:
             linear-gradient(
@@ -114,7 +110,7 @@
             ),
 
             url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=500')
-            no-repeat bottom center;
+            no-repeat center center;
 
             background-size:cover;
         }
@@ -122,7 +118,6 @@
         .right-section h1{
             font-size:32px;
             color:#111827;
-            margin-bottom:20px;
         }
 
         .member-btn{
@@ -134,7 +129,6 @@
             color:white;
             font-size:16px;
             cursor:pointer;
-            transition:0.3s;
         }
 
         .member-btn:hover{
@@ -143,17 +137,18 @@
 
         .member-signin{
             color:#4b5563;
-            text-decoration:none;
             cursor:pointer;
+            text-decoration:none;
         }
 
         .member-signin:hover{
             text-decoration:underline;
         }
 
-        /* FORM PAGE */
+        /* FORM SECTION */
 
         .form-page{
+            width:100%;
             height:100vh;
             display:flex;
             justify-content:center;
@@ -214,7 +209,7 @@
 
     <div class="container">
 
-        <!-- SUPERVISOR SECTION -->
+        <!-- SUPERVISOR -->
 
         <div class="left-section">
 
@@ -232,7 +227,7 @@
 
         </div>
 
-        <!-- MEMBER SECTION -->
+        <!-- MEMBERS -->
 
         <div class="right-section">
 
@@ -281,7 +276,8 @@
 
                     </button>
 
-                    <button class="submit-btn back-btn" onclick="goHome()">
+                    <button class="submit-btn back-btn"
+                    onclick="goHome()">
 
                         Back
 
@@ -290,6 +286,7 @@
                 </div>
 
             </div>
+
             `;
         }
 
@@ -320,7 +317,8 @@
 
                     </button>
 
-                    <button class="submit-btn back-btn" onclick="goHome()">
+                    <button class="submit-btn back-btn"
+                    onclick="goHome()">
 
                         Back
 
@@ -329,6 +327,7 @@
                 </div>
 
             </div>
+
             `;
         }
 
@@ -348,13 +347,15 @@
 
                     <input type="password" placeholder="Password">
 
-                    <button class="submit-btn">
+                    <button class="submit-btn"
+                    onclick="window.location.href='./member-dashboard.html'">
 
                         Login
 
                     </button>
 
-                    <button class="submit-btn back-btn" onclick="goHome()">
+                    <button class="submit-btn back-btn"
+                    onclick="goHome()">
 
                         Back
 
@@ -363,6 +364,7 @@
                 </div>
 
             </div>
+
             `;
         }
 
@@ -386,13 +388,15 @@
 
                     <input type="password" placeholder="Create Password">
 
-                    <button class="submit-btn">
+                    <button class="submit-btn"
+                    onclick="window.location.href='./member-dashboard.html'">
 
                         Create Account
 
                     </button>
 
-                    <button class="submit-btn back-btn" onclick="goHome()">
+                    <button class="submit-btn back-btn"
+                    onclick="goHome()">
 
                         Back
 
@@ -401,6 +405,7 @@
                 </div>
 
             </div>
+
             `;
         }
 
