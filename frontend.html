@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dual Login Page</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
+
+        body{
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:#f3f4f6;
+        }
+
+        .container{
+            width:900px;
+            height:500px;
+            display:flex;
+            border-radius:12px;
+            overflow:hidden;
+            box-shadow:0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        /* LEFT SECTION */
+
+        .left-section{
+            width:50%;
+            background:#1e293b;
+            color:white;
+
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+
+            gap:25px;
+            padding:40px;
+        }
+
+        .left-section h1{
+            font-size:32px;
+            margin-bottom:20px;
+        }
+
+        .login-btn{
+            width:250px;
+            padding:15px;
+            border:none;
+            border-radius:8px;
+            background:#3b82f6;
+            color:white;
+            font-size:16px;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .login-btn:hover{
+            background:#2563eb;
+        }
+
+        .signin-link{
+            color:#d1d5db;
+            text-decoration:none;
+            margin-top:-10px;
+            margin-bottom:20px;
+        }
+
+        .signin-link:hover{
+            text-decoration:underline;
+        }
+
+        /* RIGHT SECTION */
+
+        .right-section{
+            width:50%;
+            background:white;
+
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+
+            gap:25px;
+            padding:40px;
+        }
+
+        .right-section h1{
+            font-size:32px;
+            color:#111827;
+            margin-bottom:20px;
+        }
+
+        .member-btn{
+            width:250px;
+            padding:15px;
+            border:none;
+            border-radius:8px;
+            background:#111827;
+            color:white;
+            font-size:16px;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .member-btn:hover{
+            background:#000000;
+        }
+
+        .member-signin{
+            color:#4b5563;
+            text-decoration:none;
+            margin-top:-10px;
+        }
+
+        .member-signin:hover{
+            text-decoration:underline;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- LEFT HALF -->
+
+        <div class="left-section">
+
+            <h1>Supervisor Panel</h1>
+
+            <button class="login-btn">
+                Login as Supervisor
+            </button>
+
+            <a href="#" class="signin-link">
+                Sign In
+            </a>
+
+        </div>
+
+        <!-- RIGHT HALF -->
+
+        <div class="right-section">
+
+            <h1>Members Panel</h1>
+
+            <button class="member-btn">
+                Login as Member
+            </button>
+
+            <a href="#" class="member-signin">
+                Sign In
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
