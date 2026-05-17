@@ -76,6 +76,9 @@ export function AuthProvider({ children }) {
           }
         } catch (err) {
           console.error('Error fetching user role:', err);
+          // #region agent log
+          fetch('http://127.0.0.1:7720/ingest/3a688ee9-fc10-45d0-85e8-c003ab167547',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'c6c760'},body:JSON.stringify({sessionId:'c6c760',location:'AuthContext.jsx:onAuthStateChanged',message:'auth state role fetch failed',data:{code:err?.code,name:err?.name},timestamp:Date.now(),hypothesisId:'H3'})}).catch(()=>{});
+          // #endregion
         }
       } else {
         setUser(null);
@@ -126,6 +129,9 @@ export function AuthProvider({ children }) {
       return result.user;
     } catch (err) {
       setError(err.message);
+      // #region agent log
+      fetch('http://127.0.0.1:7720/ingest/3a688ee9-fc10-45d0-85e8-c003ab167547',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'c6c760'},body:JSON.stringify({sessionId:'c6c760',location:'AuthContext.jsx:signup',message:'signup failed',data:{code:err?.code,role},timestamp:Date.now(),hypothesisId:'H1'})}).catch(()=>{});
+      // #endregion
       throw err;
     }
   };
@@ -164,6 +170,9 @@ export function AuthProvider({ children }) {
       return result.user;
     } catch (err) {
       setError(err.message);
+      // #region agent log
+      fetch('http://127.0.0.1:7720/ingest/3a688ee9-fc10-45d0-85e8-c003ab167547',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'c6c760'},body:JSON.stringify({sessionId:'c6c760',location:'AuthContext.jsx:login',message:'login failed',data:{code:err?.code},timestamp:Date.now(),hypothesisId:'H1'})}).catch(()=>{});
+      // #endregion
       throw err;
     }
   };
@@ -208,6 +217,9 @@ export function AuthProvider({ children }) {
       return authUser;
     } catch (err) {
       setError(err.message);
+      // #region agent log
+      fetch('http://127.0.0.1:7720/ingest/3a688ee9-fc10-45d0-85e8-c003ab167547',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'c6c760'},body:JSON.stringify({sessionId:'c6c760',location:'AuthContext.jsx:loginWithGoogle',message:'google login failed',data:{code:err?.code,role},timestamp:Date.now(),hypothesisId:'H2'})}).catch(()=>{});
+      // #endregion
       throw err;
     }
   };

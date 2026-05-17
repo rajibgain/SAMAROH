@@ -1,0 +1,301 @@
+/* Gift Registry */
+.container {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(142, 112, 193, 0.1);
+  border: 1px solid rgba(142, 112, 193, 0.1);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #f3f4f6;
+}
+
+.header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #9ca3af;
+  margin-top: 4px;
+}
+
+.addBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #8e70c1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+
+.addBtn:hover {
+  background: #6f52a8;
+  transform: translateY(-2px);
+}
+
+.form {
+  background: #faf0f4;
+  border: 1px solid rgba(142, 112, 193, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.input {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #8e70c1;
+  box-shadow: 0 0 0 3px rgba(142, 112, 193, 0.1);
+}
+
+.formActions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.submitBtn {
+  padding: 10px 20px;
+  background: #8e70c1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.submitBtn:hover {
+  background: #6f52a8;
+}
+
+.cancelBtn {
+  padding: 10px 20px;
+  background: #e5e7eb;
+  color: #6b7280;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancelBtn:hover {
+  background: #d1d5db;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  color: #9ca3af;
+  gap: 12px;
+  text-align: center;
+}
+
+.empty p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.giftCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  transition: all 0.3s;
+}
+
+.giftCard:hover {
+  border-color: #8e70c1;
+  box-shadow: 0 8px 20px rgba(142, 112, 193, 0.1);
+}
+
+.giftCard.purchased {
+  background: rgba(76, 175, 80, 0.05);
+  border-color: #4caf50;
+  opacity: 0.7;
+}
+
+.giftContent {
+  flex: 1;
+}
+
+.giftHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.giftHeader h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+  text-decoration: none;
+}
+
+.giftCard.purchased .giftHeader h4 {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+.priority {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.priority.low {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.priority.medium {
+  background: #fef08a;
+  color: #92400e;
+}
+
+.priority.high {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.category {
+  font-size: 13px;
+  color: #9ca3af;
+  margin: 4px 0;
+}
+
+.giftMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.price {
+  font-weight: 700;
+  color: #8e70c1;
+}
+
+.purchaser {
+  color: #6b7280;
+  padding: 2px 8px;
+  background: #f3f4f6;
+  border-radius: 4px;
+}
+
+.link {
+  display: inline-block;
+  margin-top: 8px;
+  color: #8e70c1;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.link:hover {
+  color: #6f52a8;
+  text-decoration: underline;
+}
+
+.giftActions {
+  display: flex;
+  gap: 8px;
+  margin-left: 12px;
+  flex-shrink: 0;
+}
+
+.markBtn,
+.deleteBtn {
+  background: none;
+  border: none;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #9ca3af;
+  transition: all 0.2s;
+}
+
+.markBtn:hover {
+  background: #f3f4f6;
+  color: #4caf50;
+}
+
+.markBtn.marked {
+  color: #4caf50;
+}
+
+.deleteBtn:hover {
+  background: #fee;
+  color: #dc2626;
+}
+
+@media (max-width: 768px) {
+  .giftCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .giftActions {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 12px;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+}

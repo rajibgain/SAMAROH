@@ -1,4 +1,8 @@
-/* Samaroh landing — warm celebration palette */
+/* ═══════════════════════════════════════════════════════════════
+   SAMAROH LANDING PAGE - Advanced Modern Design
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap');
 
 .page {
   --bg: #fdf5f8;
@@ -6,6 +10,7 @@
   --surface: #ffffff;
   --text: #1a1523;
   --text-muted: #5c5568;
+  --text-light: #9ca3af;
   --purple: #8e70c1;
   --purple-dark: #6f52a8;
   --purple-light: #ede4f7;
@@ -16,6 +21,7 @@
   --shadow-sm: 0 4px 20px rgba(111, 82, 168, 0.06);
   --shadow-md: 0 12px 40px rgba(111, 82, 168, 0.1);
   --shadow-lg: 0 24px 60px rgba(111, 82, 168, 0.14);
+  --shadow-xl: 0 32px 80px rgba(111, 82, 168, 0.18);
   --radius-sm: 12px;
   --radius-md: 20px;
   --radius-lg: 28px;
@@ -24,9 +30,10 @@
   --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
 
   min-height: 100vh;
-  background: var(--bg);
+  background: linear-gradient(135deg, var(--bg) 0%, var(--bg-soft) 100%);
   color: var(--text);
   font-family: var(--font-sans);
+  scroll-behavior: smooth;
 }
 
 /* ── Header ── */

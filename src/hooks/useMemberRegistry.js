@@ -18,6 +18,9 @@ export async function validateMemberUid(memberUid) {
 
   const regRef = doc(db, 'memberRegistry', normalized);
   const snap = await getDoc(regRef);
+  // #region agent log
+  fetch('http://127.0.0.1:7720/ingest/3a688ee9-fc10-45d0-85e8-c003ab167547',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'c6c760'},body:JSON.stringify({sessionId:'c6c760',location:'useMemberRegistry.js:validateMemberUid',message:'uid lookup',data:{normalized,exists:snap.exists()},timestamp:Date.now(),hypothesisId:'H4'})}).catch(()=>{});
+  // #endregion
   if (!snap.exists()) return null;
   return { id: snap.id, ...snap.data() };
 }

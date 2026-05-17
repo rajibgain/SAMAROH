@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { useAuth } from './context/AuthContext';
 import { AuthProvider } from './context/AuthContext';
 import { EventProvider } from './context/EventContext';
+import { NotificationProvider } from './hooks/useNotification';
 import { LoginSignup } from './components/LoginSignup';
 import { HomePage } from './components/HomePage';
 import { CoordinatorDashboard } from './components/CoordinatorDashboard';
 import { MemberDashboard } from './components/MemberDashboard';
+import { Toast } from './components/Toast';
 import './App.css';
 
 function AppContent() {
@@ -46,10 +48,13 @@ function AppContent() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <EventProvider>
-        <AppContent />
-      </EventProvider>
-    </AuthProvider>
+    <NotificationProvider>
+      <AuthProvider>
+        <EventProvider>
+          <AppContent />
+          <Toast />
+        </EventProvider>
+      </AuthProvider>
+    </NotificationProvider>
   );
 }
