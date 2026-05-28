@@ -1,23 +1,42 @@
 import React, { useState } from 'react';
 import { useGuests } from '../hooks/useFirebaseEvents';
+import { FormError } from './FormError';
+import { useNotification } from '../hooks/useNotification';
+import { validateGuestForm } from '../utils/formValidation';
+import { GUEST_STATUS_OPTIONS, SUCCESS_MESSAGES, ERROR_MESSAGES } from '../constants';
 import styles from '../styles/components.module.css';
 
 export function GuestManagement({ eventId }) {
   const { guests, loading, addGuest, updateGuest, deleteGuest, markGuestAttended } = useGuests(eventId);
+  const { notify } = useNotification();
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const statuses = ['pending', 'confirmed', 'declined'];
+  const statuses = GUEST_STATUS_OPTIONS.map((option) => option.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name) {
-      alert('Please enter guest name');
+    setErrors({});
+
+    const newErrors = validateGuestForm(formData);
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
-    await addGuest(formData);
-    setFormData({ name: '', email: '', phone: '' });
-    setShowForm(false);
+
+    try {
+      setIsSubmitting(true);
+      await addGuest(formData);
+      notify(SUCCESS_MESSAGES.GUEST_INVITED, 'success');
+      setFormData({ name: '', email: '', phone: '' });
+      setShowForm(false);
+    } catch (error) {
+      notify(error.message || ERROR_MESSAGES.GUEST_ADD_FAILED, 'error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleStatusChange = async (guestId, newStatus) => {
@@ -26,9 +45,9 @@ export function GuestManagement({ eventId }) {
 
   if (loading) return <div className={styles.loading}>Loading guests...</div>;
 
-  const confirmed = guests.filter(g => g.status === 'confirmed').length;
-  const pending = guests.filter(g => g.status === 'pending').length;
-  const declined = guests.filter(g => g.status === 'declined').length;
+  const confirmed = guests.filter(g => g.status === GUEST_STATUS.CONFIRMED).length;
+  const pending = guests.filter(g => g.status === GUEST_STATUS.PENDING).length;
+  const declined = guests.filter(g => g.status === GUEST_STATUS.DECLINED).length;
   const attended = guests.filter((g) => g.attended).length;
 
   return (
@@ -69,29 +88,53 @@ export function GuestManagement({ eventId }) {
 
       {showForm && (
         <form onSubmit={handleSubmit} className={styles.form}>
-          <input
-            type="text"
-            placeholder="Guest Name"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className={styles.input}
-          />
-          <input
-            type="email"
-            placeholder="Email (optional)"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            className={styles.input}
-          />
-          <input
-            type="tel"
-            placeholder="Phone (optional)"
-            value={formData.phone}
-            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-            className={styles.input}
-          />
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Guest Name *</label>
+            <input
+              type="text"
+              placeholder="Guest Name"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              className={`${styles.input} ${errors.name ? styles.error : ''}`}
+              aria-invalid={!!errors.name}
+            />
+            {errors.name && <FormError error={errors.name} />}
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Email (optional)</label>
+            <input
+              type="email"
+              placeholder="Email Address"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              className={`${styles.input} ${errors.email ? styles.error : ''}`}
+              aria-invalid={!!errors.email}
+            />
+            {errors.email && <FormError error={errors.email} />}
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Phone (optional)</label>
+            <input
+              type="tel"
+              placeholder="Phone Number"
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              className={`${styles.input} ${errors.phone ? styles.error : ''}`}
+              aria-invalid={!!errors.phone}
+            />
+            {errors.phone && <FormError error={errors.phone} />}
+          </div>
+
           <div className={styles.formActions}>
-            <button type="submit" className={styles.btn + ' ' + styles.btnSuccess}>Invite</button>
+            <button 
+              type="submit" 
+              className={styles.btn + ' ' + styles.btnSuccess}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Inviting...' : 'Invite'}
+            </button>
             <button type="button" onClick={() => setShowForm(false)} className={styles.btn}>Cancel</button>
           </div>
         </form>
@@ -114,8 +157,10 @@ export function GuestManagement({ eventId }) {
                   onChange={(e) => handleStatusChange(guest.id, e.target.value)}
                   className={styles.select}
                 >
-                  {statuses.map(status => (
-                    <option key={status} value={status}>{status.toUpperCase()}</option>
+                  {GUEST_STATUS_OPTIONS.map((statusOption) => (
+                    <option key={statusOption.value} value={statusOption.value}>
+                      {statusOption.label}
+                    </option>
                   ))}
                 </select>
                 <button

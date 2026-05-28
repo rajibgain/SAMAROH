@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useSchedule } from '../hooks/useFirebaseEvents';
+import { useNotification } from '../hooks/useNotification';
 import styles from '../styles/components.module.css';
 
 export function ScheduleView({ eventId }) {
   const { schedule, loading, addScheduleItem, updateScheduleItem, deleteScheduleItem } = useSchedule(eventId);
+  const { notify } = useNotification();
   const [showForm, setShowForm] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     eventName: '',
     time: '',
@@ -15,13 +18,23 @@ export function ScheduleView({ eventId }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (!formData.eventName || !formData.time) {
-      alert('Please fill in event name and time');
+      notify('Please fill in event name and time', 'error');
       return;
     }
-    await addScheduleItem(formData);
-    setFormData({ eventName: '', time: '', location: '', description: '', attendees: '' });
-    setShowForm(false);
+
+    setIsSubmitting(true);
+    try {
+      await addScheduleItem(formData);
+      notify('Event added to schedule!', 'success');
+      setFormData({ eventName: '', time: '', location: '', description: '', attendees: '' });
+      setShowForm(false);
+    } catch (error) {
+      notify(error.message || 'Failed to add event', 'error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (loading) return <div className={styles.loading}>Loading schedule...</div>;
@@ -77,7 +90,9 @@ export function ScheduleView({ eventId }) {
             className={styles.input}
           />
           <div className={styles.formActions}>
-            <button type="submit" className={styles.btn + ' ' + styles.btnSuccess}>Add to Schedule</button>
+            <button type="submit" className={styles.btn + ' ' + styles.btnSuccess} disabled={isSubmitting}>
+              {isSubmitting ? 'Adding...' : 'Add to Schedule'}
+            </button>
             <button type="button" onClick={() => setShowForm(false)} className={styles.btn}>Cancel</button>
           </div>
         </form>

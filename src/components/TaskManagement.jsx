@@ -1,58 +1,77 @@
 import React, { useState } from 'react';
 import { useTasks, useMembers } from '../hooks/useFirebaseEvents';
+import { FormError } from './FormError';
+import { useNotification } from '../hooks/useNotification';
+import { validateTaskForm } from '../utils/formValidation';
+import {
+  TASK_CATEGORIES,
+  TASK_CATEGORY_OPTIONS,
+  JOB_ROLES,
+  JOB_ROLE_OPTIONS,
+  TASK_PRIORITY_OPTIONS,
+  TASK_STATUS,
+  SUCCESS_MESSAGES,
+  ERROR_MESSAGES,
+} from '../constants';
 import styles from '../styles/components.module.css';
 
 export function TaskManagement({ eventId }) {
   const { tasks, loading, addTask, updateTask, deleteTask } = useTasks(eventId);
   const { members } = useMembers(eventId);
+  const { notify } = useNotification();
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
-    category: 'food',
-    jobRole: 'food-service',
+    category: TASK_CATEGORIES.FOOD,
+    jobRole: JOB_ROLES.FOOD_SERVICE,
     description: '',
     assignedTo: '',
     assignedMemberUid: '',
     dueDate: '',
     dependsOn: [],
   });
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const categories = ['food', 'decoration', 'venue', 'entertainment', 'invitation', 'other'];
-  const jobRoles = [
-    'food-service',
-    'decoration',
-    'venue-setup',
-    'guest-relations',
-    'photography',
-    'logistics',
-    'ceremony',
-    'other',
-  ];
-  const priorities = ['low', 'medium', 'high'];
+  const categories = TASK_CATEGORY_OPTIONS;
+  const jobRoles = JOB_ROLE_OPTIONS;
+  const priorities = TASK_PRIORITY_OPTIONS;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.title) {
-      alert('Please enter task title');
+    setErrors({});
+
+    const newErrors = validateTaskForm(formData);
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
-    const assignee = members.find((m) => m.memberUid === formData.assignedMemberUid);
-    await addTask({
-      ...formData,
-      assignedTo: assignee?.name || formData.assignedTo,
-      jobRole: formData.jobRole || formData.category,
-    });
-    setFormData({
-      title: '',
-      category: 'food',
-      jobRole: 'food-service',
-      description: '',
-      assignedTo: '',
-      assignedMemberUid: '',
-      dueDate: '',
-      dependsOn: [],
-    });
-    setShowForm(false);
+
+    try {
+      setIsSubmitting(true);
+      const assignee = members.find((m) => m.memberUid === formData.assignedMemberUid);
+      await addTask({
+        ...formData,
+        assignedTo: assignee?.name || formData.assignedTo,
+        jobRole: formData.jobRole || formData.category,
+      });
+      notify(SUCCESS_MESSAGES.TASK_CREATED, 'success');
+      setFormData({
+        title: '',
+        category: TASK_CATEGORIES.FOOD,
+        jobRole: JOB_ROLES.FOOD_SERVICE,
+        description: '',
+        assignedTo: '',
+        assignedMemberUid: '',
+        dueDate: '',
+        dependsOn: [],
+      });
+      setShowForm(false);
+    } catch (error) {
+      notify(error.message || ERROR_MESSAGES.TASK_ADD_FAILED, 'error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleStatusChange = async (taskId, newStatus) => {
@@ -65,8 +84,8 @@ export function TaskManagement({ eventId }) {
 
   if (loading) return <div className={styles.loading}>Loading tasks...</div>;
 
-  const pendingTasks = tasks.filter(t => t.status === 'pending').length;
-  const completedTasks = tasks.filter(t => t.status === 'completed').length;
+  const pendingTasks = tasks.filter(t => t.status === TASK_STATUS.PENDING).length;
+  const completedTasks = tasks.filter(t => t.status === TASK_STATUS.COMPLETED).length;
 
   return (
     <div className={styles.section}>
@@ -98,71 +117,102 @@ export function TaskManagement({ eventId }) {
 
       {showForm && (
         <form onSubmit={handleSubmit} className={styles.form}>
-          <input
-            type="text"
-            placeholder="Task Title"
-            value={formData.title}
-            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            className={styles.input}
-          />
-          <select 
-            value={formData.category}
-            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-            className={styles.input}
-          >
-            {categories.map(cat => (
-              <option key={cat} value={cat}>{cat.toUpperCase()}</option>
-            ))}
-          </select>
-          <textarea
-            placeholder="Task Description"
-            value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            className={styles.input}
-            rows="3"
-          />
-          <select
-            value={formData.jobRole}
-            onChange={(e) => setFormData({ ...formData, jobRole: e.target.value })}
-            className={styles.input}
-          >
-            {jobRoles.map((role) => (
-              <option key={role} value={role}>{role.replace('-', ' ').toUpperCase()}</option>
-            ))}
-          </select>
-          <select
-            value={formData.assignedMemberUid}
-            onChange={(e) => setFormData({ ...formData, assignedMemberUid: e.target.value })}
-            className={styles.input}
-          >
-            <option value="">Assign to member (job role)</option>
-            {members.map((member) => (
-              <option key={member.id} value={member.memberUid || ''}>
-                {member.name} {member.memberUid ? `(${member.memberUid})` : ''}
-              </option>
-            ))}
-          </select>
-          <select
-            multiple
-            value={formData.dependsOn.map(String)}
-            onChange={(e) => {
-              const selected = Array.from(e.target.selectedOptions).map((o) => Number(o.value));
-              setFormData({ ...formData, dependsOn: selected });
-            }}
-            className={styles.input}
-          >
-            {tasks.map((task) => (
-              <option key={task.id} value={task.id}>{task.title}</option>
-            ))}
-          </select>
-          <input
-            type="date"
-            value={formData.dueDate}
-            onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
-            className={styles.input}
-          />
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Task Title *</label>
+            <input
+              type="text"
+              placeholder="Task Title"
+              value={formData.title}
+              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              className={`${styles.input} ${errors.title ? styles.error : ''}`}
+              aria-invalid={!!errors.title}
+            />
+            {errors.title && <FormError error={errors.title} />}
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Category</label>
+            <select 
+              value={formData.category}
+              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+              className={styles.input}
+            >
+              {categories.map((cat) => (
+                <option key={cat.value} value={cat.value}>{cat.label}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Description</label>
+            <textarea
+              placeholder="Task Description"
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              className={styles.input}
+              rows="3"
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Job Role</label>
+            <select
+              value={formData.jobRole}
+              onChange={(e) => setFormData({ ...formData, jobRole: e.target.value })}
+              className={styles.input}
+            >
+              {jobRoles.map((role) => (
+                <option key={role.value} value={role.value}>{role.label}</option>
+              ))}
+            </select>
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Assign to Member</label>
+            <select
+              value={formData.assignedMemberUid}
+              onChange={(e) => setFormData({ ...formData, assignedMemberUid: e.target.value })}
+              className={styles.input}
+            >
+              <option value="">Assign to member (job role)</option>
+              {members.map((member) => (
+                <option key={member.id} value={member.memberUid || ''}>
+                  {member.name} {member.memberUid ? `(${member.memberUid})` : ''}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Dependencies</label>
+            <select
+              multiple
+              value={formData.dependsOn.map(String)}
+              onChange={(e) => {
+                const selected = Array.from(e.target.selectedOptions).map((o) => Number(o.value));
+                setFormData({ ...formData, dependsOn: selected });
+              }}
+              className={styles.input}
+            >
+              {tasks.map((task) => (
+                <option key={task.id} value={task.id}>{task.title}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Due Date</label>
+            <input
+              type="date"
+              value={formData.dueDate}
+              onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
+              className={styles.input}
+            />
+          </div>
+
           <div className={styles.formActions}>
-            <button type="submit" className={styles.btn + ' ' + styles.btnSuccess}>Create Task</button>
+            <button type="submit" className={styles.btn + ' ' + styles.btnSuccess} disabled={isSubmitting}>
+              {isSubmitting ? 'Creating...' : 'Create Task'}
+            </button>
             <button type="button" onClick={() => setShowForm(false)} className={styles.btn}>Cancel</button>
           </div>
         </form>
@@ -177,12 +227,12 @@ export function TaskManagement({ eventId }) {
               <div className={styles.taskContent}>
                 <input 
                   type="checkbox"
-                  checked={task.status === 'completed'}
-                  onChange={(e) => handleStatusChange(task.id, e.target.checked ? 'completed' : 'pending')}
+                  checked={task.status === TASK_STATUS.COMPLETED}
+                  onChange={(e) => handleStatusChange(task.id, e.target.checked ? TASK_STATUS.COMPLETED : TASK_STATUS.PENDING)}
                   className={styles.checkbox}
                 />
                 <div className={styles.taskDetails}>
-                  <h4 style={{ textDecoration: task.status === 'completed' ? 'line-through' : 'none' }}>
+                  <h4 className={task.status === TASK_STATUS.COMPLETED ? styles.textStrikethrough : ''}>
                     {task.title}
                   </h4>
                   <p className={styles.taskCategory}>{task.category}</p>
@@ -198,12 +248,12 @@ export function TaskManagement({ eventId }) {
               </div>
               <div className={styles.taskActions}>
                 <select 
-                  value={task.priority || 'medium'}
+                  value={task.priority || TASK_PRIORITY.MEDIUM}
                   onChange={(e) => handlePriorityChange(task.id, e.target.value)}
                   className={styles.select}
                 >
-                  {priorities.map(p => (
-                    <option key={p} value={p}>{p.toUpperCase()}</option>
+                  {priorities.map((priority) => (
+                    <option key={priority.value} value={priority.value}>{priority.label}</option>
                   ))}
                 </select>
                 <button 

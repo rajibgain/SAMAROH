@@ -2,7 +2,7 @@ import styles from '../styles/auth.module.css';
 
 export function AuthRoleSelect({ onSelectRole, onBackToHome }) {
   return (
-    <div className={styles.container} style={{ position: 'relative', zIndex: 1 }}>
+    <div className={`${styles.container} ${styles.relativePosition}`}>
       <div className={styles.authCard}>
         <button className={styles.backBtn} onClick={onBackToHome}>
           ← Back to homepage

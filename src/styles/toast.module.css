@@ -1,29 +1,33 @@
-/* Toast Notifications */
+/* Toast Notifications - Mobile First Responsive */
+
+/* Mobile (320px+) */
 .container {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 12px;
+  right: 12px;
+  left: 12px;
   z-index: 999;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   pointer-events: none;
+  max-width: calc(100% - 24px);
 }
 
 .toast {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
-  border-radius: 12px;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 10px;
   background: white;
   box-shadow: 0 8px 24px rgba(111, 82, 168, 0.15);
   font-weight: 500;
   pointer-events: auto;
-  min-width: 300px;
   border-left: 4px solid #8e70c1;
   backdrop-filter: blur(8px);
   animation: slideIn 0.3s ease-out;
+  min-height: 44px;
 }
 
 .toast.success {
@@ -50,6 +54,10 @@
   display: flex;
   color: inherit;
   flex-shrink: 0;
+  min-width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
 }
 
 .toast.success .icon {
@@ -71,19 +79,23 @@
 .message {
   flex: 1;
   color: #1a1523;
-  font-size: 14px;
+  font-size: 13px;
   margin: 0;
+  line-height: 1.4;
 }
 
 .close {
   background: none;
   border: none;
-  padding: 4px;
+  min-height: 40px;
+  min-width: 40px;
+  padding: 6px;
   cursor: pointer;
   color: #9ca3af;
   transition: all 0.2s;
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 }
 
@@ -103,14 +115,44 @@
   }
 }
 
-@media (max-width: 640px) {
+/* ═════════════════════════════════════════════════════════════════
+   TABLET (480px+)
+   ═════════════════════════════════════════════════════════════════ */
+@media (min-width: 480px) {
   .container {
-    right: 10px;
-    left: 10px;
-    top: 10px;
+    top: 16px;
+    right: 16px;
+    left: auto;
+    max-width: 100%;
   }
 
   .toast {
-    min-width: auto;
+    min-width: 320px;
+    padding: 13px 15px;
+  }
+
+  .message {
+    font-size: 14px;
+  }
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   DESKTOP (768px+)
+   ═════════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+  .container {
+    top: 20px;
+    right: 20px;
+    left: auto;
+  }
+
+  .toast {
+    min-width: 300px;
+    padding: 14px 16px;
+    border-radius: 12px;
+  }
+
+  .message {
+    font-size: 14px;
   }
 }

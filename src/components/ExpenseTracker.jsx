@@ -1,32 +1,56 @@
 import React, { useState } from 'react';
 import { useExpenses } from '../hooks/useFirebaseEvents';
+import { FormError } from './FormError';
+import { useNotification } from '../hooks/useNotification';
+import { validateExpenseForm } from '../utils/formValidation';
+import {
+  EXPENSE_CATEGORIES,
+  EXPENSE_CATEGORY_OPTIONS,
+  SUCCESS_MESSAGES,
+  ERROR_MESSAGES,
+} from '../constants';
 import styles from '../styles/components.module.css';
 
 export function ExpenseTracker({ eventId }) {
   const { expenses, loading, addExpense, updateExpense, deleteExpense } = useExpenses(eventId);
+  const { notify } = useNotification();
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     description: '',
-    category: 'decoration',
+    category: EXPENSE_CATEGORIES.DECORATION,
     amount: '',
     paidBy: '',
     notes: '',
   });
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const categories = ['food', 'decoration', 'venue', 'entertainment', 'guest-gifts', 'transport', 'other'];
+  const categories = EXPENSE_CATEGORY_OPTIONS;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.description || !formData.amount) {
-      alert('Please fill in description and amount');
+    setErrors({});
+
+    const newErrors = validateExpenseForm(formData);
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
-    await addExpense({
-      ...formData,
-      amount: parseFloat(formData.amount)
-    });
-    setFormData({ description: '', category: 'decoration', amount: '', paidBy: '', notes: '' });
-    setShowForm(false);
+
+    try {
+      setIsSubmitting(true);
+      await addExpense({
+        ...formData,
+        amount: parseFloat(formData.amount)
+      });
+      notify(SUCCESS_MESSAGES.EXPENSE_RECORDED, 'success');
+      setFormData({ description: '', category: EXPENSE_CATEGORIES.DECORATION, amount: '', paidBy: '', notes: '' });
+      setShowForm(false);
+    } catch (error) {
+      notify(error.message || ERROR_MESSAGES.EXPENSE_ADD_FAILED, 'error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (loading) return <div className={styles.loading}>Loading expenses...</div>;
@@ -59,7 +83,7 @@ export function ExpenseTracker({ eventId }) {
           <h4>By Category</h4>
           {Object.entries(byCategory).map(([cat, amount]) => (
             <div key={cat} className={styles.categoryItem}>
-              <span>{cat}</span>
+              <span>{categories.find((category) => category.value === cat)?.label || cat}</span>
               <span className={styles.catAmount}>₹ {amount.toFixed(2)}</span>
             </div>
           ))}
@@ -68,46 +92,75 @@ export function ExpenseTracker({ eventId }) {
 
       {showForm && (
         <form onSubmit={handleSubmit} className={styles.form}>
-          <input
-            type="text"
-            placeholder="Description"
-            value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            className={styles.input}
-          />
-          <select 
-            value={formData.category}
-            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-            className={styles.input}
-          >
-            {categories.map(cat => (
-              <option key={cat} value={cat}>{cat.toUpperCase()}</option>
-            ))}
-          </select>
-          <input
-            type="number"
-            placeholder="Amount (₹)"
-            value={formData.amount}
-            onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-            className={styles.input}
-            step="0.01"
-          />
-          <input
-            type="text"
-            placeholder="Paid By (name)"
-            value={formData.paidBy}
-            onChange={(e) => setFormData({ ...formData, paidBy: e.target.value })}
-            className={styles.input}
-          />
-          <textarea
-            placeholder="Notes (optional)"
-            value={formData.notes}
-            onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-            className={styles.input}
-            rows="2"
-          />
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Description *</label>
+            <input
+              type="text"
+              placeholder="Expense Description"
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              className={`${styles.input} ${errors.description ? styles.error : ''}`}
+              aria-invalid={!!errors.description}
+            />
+            {errors.description && <FormError error={errors.description} />}
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Category</label>
+            <select 
+              value={formData.category}
+              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+              className={styles.input}
+            >
+              {categories.map((category) => (
+                <option key={category.value} value={category.value}>
+                  {category.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Amount (₹) *</label>
+            <input
+              type="number"
+              placeholder="Amount"
+              value={formData.amount}
+              onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+              className={`${styles.input} ${errors.amount ? styles.error : ''}`}
+              aria-invalid={!!errors.amount}
+              step="0.01"
+              min="0"
+            />
+            {errors.amount && <FormError error={errors.amount} />}
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Paid By (optional)</label>
+            <input
+              type="text"
+              placeholder="Paid By (name)"
+              value={formData.paidBy}
+              onChange={(e) => setFormData({ ...formData, paidBy: e.target.value })}
+              className={styles.input}
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Notes (optional)</label>
+            <textarea
+              placeholder="Additional notes"
+              value={formData.notes}
+              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+              className={styles.input}
+              rows="2"
+            />
+          </div>
+
           <div className={styles.formActions}>
-            <button type="submit" className={styles.btn + ' ' + styles.btnSuccess}>Record Expense</button>
+            <button type="submit" className={styles.btn + ' ' + styles.btnSuccess} disabled={isSubmitting}>
+              {isSubmitting ? 'Recording...' : 'Record Expense'}
+            </button>
             <button type="button" onClick={() => setShowForm(false)} className={styles.btn}>Cancel</button>
           </div>
         </form>
@@ -121,7 +174,7 @@ export function ExpenseTracker({ eventId }) {
             <div key={expense.id} className={styles.expenseItem}>
               <div className={styles.itemContent}>
                 <h4>{expense.description}</h4>
-                <p className={styles.expenseCat}>{expense.category}</p>
+                <p className={styles.expenseCat}>{categories.find((category) => category.value === expense.category)?.label || expense.category}</p>
                 {expense.paidBy && <p>Paid By: {expense.paidBy}</p>}
                 {expense.notes && <p className={styles.notes}>{expense.notes}</p>}
                 <p className={styles.date}>

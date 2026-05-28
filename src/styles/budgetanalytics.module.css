@@ -1,0 +1,510 @@
+/* ═════════════════════════════════════════════════════════════════
+   RESPONSIVE BUDGET ANALYTICS (Mobile First)
+   ═════════════════════════════════════════════════════════════════ */
+
+/* Mobile (320px+) */
+.budgetContainer {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(236, 72, 153, 0.05));
+  border-radius: 12px;
+}
+
+.header {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.header h2 {
+  margin: 0 0 6px 0;
+  font-size: 1.5rem;
+  color: #1f2937;
+  font-weight: 700;
+}
+
+.header p {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Metrics Grid */
+.metricsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.metric {
+  background: white;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #e5e7eb;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.metric:hover {
+  border-color: #6366f1;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+  transform: translateY(-2px);
+}
+
+.metricIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.metricContent {
+  flex: 1;
+}
+
+.label {
+  margin: 0;
+  font-size: 11px;
+  color: #6b7280;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.value {
+  margin: 2px 0 0 0;
+  font-size: 1.5rem;
+  color: #1f2937;
+  font-weight: 700;
+}
+
+.value.danger {
+  color: #ef4444;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+  padding: 6px;
+  background: white;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  flex-wrap: wrap;
+  overflow-x: auto;
+}
+
+.tab {
+  padding: 8px 14px;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #6b7280;
+  font-size: 12px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: #6366f1;
+  background: rgba(99, 102, 241, 0.05);
+}
+
+.tab.active {
+  background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+  color: white;
+  border-color: #6366f1;
+}
+
+/* Charts Container */
+.chartsContainer {
+  background: white;
+  border-radius: 10px;
+  padding: 14px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 16px;
+}
+
+.chartWrapper {
+  width: 100%;
+}
+
+.chartWrapper h3 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+/* Insights */
+.insightsWrapper {
+  width: 100%;
+}
+
+.insightsWrapper h3 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.insightsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.insight {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 4px solid;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.insight:hover {
+  transform: translateX(2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.insight.warning {
+  border-left-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.05);
+}
+
+.insight.success {
+  border-left-color: #10b981;
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.insight.info {
+  border-left-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.insightIcon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.insight.warning .insightIcon {
+  background: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+}
+
+.insight.success .insightIcon {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+}
+
+.insight.info .insightIcon {
+  background: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+}
+
+.insightContent {
+  flex: 1;
+}
+
+.insightContent h4 {
+  margin: 0 0 2px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.insightContent p {
+  margin: 0;
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+/* Tips Section */
+.tipsSection {
+  background: white;
+  border-radius: 10px;
+  padding: 14px;
+  border: 1px solid #e5e7eb;
+}
+
+.tipsSection h3 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.tipsList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.tip {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(236, 72, 153, 0.05));
+  border-radius: 8px;
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  transition: all 0.2s ease;
+}
+
+.tip:hover {
+  border-color: #6366f1;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.1);
+}
+
+.tipNumber {
+  min-width: 26px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.tip p {
+  margin: 0;
+  font-size: 12px;
+  color: #4b5563;
+  line-height: 1.4;
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   TABLET (480px+)
+   ═════════════════════════════════════════════════════════════════ */
+@media (min-width: 480px) {
+  .budgetContainer {
+    padding: 18px;
+  }
+
+  .metricsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .metric {
+    flex-direction: row;
+    text-align: left;
+    padding: 14px;
+  }
+
+  .header h2 {
+    font-size: 1.75rem;
+  }
+
+  .chartsContainer {
+    padding: 16px;
+    margin-bottom: 18px;
+  }
+
+  .chartWrapper h3 {
+    font-size: 17px;
+    margin: 0 0 14px 0;
+  }
+
+  .insightsWrapper h3,
+  .tipsSection h3 {
+    font-size: 17px;
+  }
+
+  .tip p {
+    font-size: 13px;
+  }
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   TABLET DEVICES (768px+)
+   ═════════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+  .budgetContainer {
+    padding: 20px;
+  }
+
+  .metricsGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .header h2 {
+    font-size: 1.9rem;
+    margin: 0 0 8px 0;
+  }
+
+  .chartsContainer {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .chartWrapper h3 {
+    font-size: 18px;
+    margin: 0 0 16px 0;
+  }
+
+  .tabs {
+    gap: 8px;
+    padding: 8px;
+    margin-bottom: 20px;
+  }
+
+  .tab {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+
+  .insightsList {
+    gap: 12px;
+  }
+
+  .insight {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .insightIcon {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  .tipsSection {
+    padding: 20px;
+  }
+
+  .tipsSection h3,
+  .insightsWrapper h3 {
+    font-size: 18px;
+    margin: 0 0 16px 0;
+  }
+
+  .tipsList {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .tip {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .tipNumber {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+  }
+
+  .tip p {
+    font-size: 13px;
+  }
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   DESKTOP (1024px+)
+   ═════════════════════════════════════════════════════════════════ */
+@media (min-width: 1024px) {
+  .budgetContainer {
+    padding: 24px;
+  }
+
+  .metricsGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .metric {
+    padding: 16px;
+  }
+
+  .metricIcon {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+  }
+
+  .header h2 {
+    font-size: 2rem;
+    margin: 0 0 8px 0;
+  }
+
+  .chartsContainer {
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+
+  .chartWrapper h3 {
+    font-size: 18px;
+    margin: 0 0 16px 0;
+  }
+
+  .tabs {
+    gap: 8px;
+    padding: 8px;
+    margin-bottom: 24px;
+  }
+
+  .tab {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+
+  .insightsList {
+    gap: 12px;
+  }
+
+  .tipsSection {
+    padding: 24px;
+  }
+
+  .tipsSection h3,
+  .insightsWrapper h3 {
+    font-size: 18px;
+    margin: 0 0 16px 0;
+  }
+
+  .tipsList {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 12px;
+  }
+
+  .tip {
+    padding: 12px;
+  }
+
+  .tipNumber {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+  }
+}

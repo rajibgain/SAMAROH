@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { TrendingUp, DollarSign } from 'lucide-react';
+import { CHART_COLOR_ARRAY, COLORS } from '../constants';
 import styles from '../styles/analytics.module.css';
 
 export function BudgetAnalytics({ expenses = [] }) {
@@ -48,7 +49,7 @@ export function BudgetAnalytics({ expenses = [] }) {
     setTimelineData(timeData);
   }, [expenses]);
 
-  const COLORS = ['#8e70c1', '#f8bbd0', '#ffab91', '#ffd54f', '#81c784', '#64b5f6'];
+  const chartColors = CHART_COLOR_ARRAY;
 
   if (expenses.length === 0) {
     return (
@@ -101,7 +102,7 @@ export function BudgetAnalytics({ expenses = [] }) {
                 dataKey="value"
               >
                 {categoryData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />
                 ))}
               </Pie>
               <Tooltip formatter={(value) => `$${value.toFixed(2)}`} />
@@ -119,18 +120,18 @@ export function BudgetAnalytics({ expenses = [] }) {
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={timelineData}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(142, 112, 193, 0.1)" />
-              <XAxis dataKey="date" stroke="#8e70c1" />
-              <YAxis stroke="#8e70c1" />
+              <XAxis dataKey="date" stroke={COLORS.PRIMARY} />
+              <YAxis stroke={COLORS.PRIMARY} />
               <Tooltip
-                contentStyle={{ background: 'rgba(255, 255, 255, 0.95)', border: '1px solid #8e70c1' }}
+                contentStyle={{ background: 'rgba(255, 255, 255, 0.95)', border: `1px solid ${COLORS.PRIMARY}` }}
                 formatter={(value) => `$${value.toFixed(2)}`}
               />
               <Line
                 type="monotone"
                 dataKey="amount"
-                stroke="#8e70c1"
+                stroke={COLORS.PRIMARY}
                 strokeWidth={3}
-                dot={{ fill: '#8e70c1', r: 5 }}
+                dot={{ fill: COLORS.PRIMARY, r: 5 }}
                 activeDot={{ r: 7 }}
               />
             </LineChart>
@@ -147,13 +148,13 @@ export function BudgetAnalytics({ expenses = [] }) {
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={categoryData}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(142, 112, 193, 0.1)" />
-              <XAxis dataKey="name" stroke="#8e70c1" />
-              <YAxis stroke="#8e70c1" />
+              <XAxis dataKey="name" stroke={COLORS.PRIMARY} />
+              <YAxis stroke={COLORS.PRIMARY} />
               <Tooltip
-                contentStyle={{ background: 'rgba(255, 255, 255, 0.95)', border: '1px solid #8e70c1' }}
+                contentStyle={{ background: 'rgba(255, 255, 255, 0.95)', border: `1px solid ${COLORS.PRIMARY}` }}
                 formatter={(value) => `$${value.toFixed(2)}`}
               />
-              <Bar dataKey="value" fill="#8e70c1" radius={[8, 8, 0, 0]} />
+              <Bar dataKey="value" fill={COLORS.PRIMARY} radius={[8, 8, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </motion.div>

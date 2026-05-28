@@ -1,4 +1,5 @@
 import { getTaskTimeBucket } from '../utils/taskStatus';
+import { TASK_STATUS } from '../constants';
 import styles from '../styles/components.module.css';
 
 function TaskGroup({ title, tone, tasks, onToggle }) {
@@ -13,12 +14,12 @@ function TaskGroup({ title, tone, tasks, onToggle }) {
             <div className={styles.taskContent}>
               <input
                 type="checkbox"
-                checked={task.status === 'completed'}
-                onChange={(e) => onToggle(task, e.target.checked ? 'completed' : 'pending')}
+                checked={task.status === TASK_STATUS.COMPLETED}
+                onChange={(e) => onToggle(task, e.target.checked ? TASK_STATUS.COMPLETED : TASK_STATUS.PENDING)}
                 className={styles.checkbox}
               />
               <div className={styles.taskDetails}>
-                <h4 style={{ textDecoration: task.status === 'completed' ? 'line-through' : 'none' }}>
+                <h4 className={task.status === TASK_STATUS.COMPLETED ? styles.textStrikethrough : ''}>
                   {task.title}
                 </h4>
                 <p className={styles.taskCategory}>

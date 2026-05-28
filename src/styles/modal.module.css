@@ -1,4 +1,5 @@
 /* Modal Dialog */
+
 .backdrop {
   position: fixed;
   inset: 0;
@@ -9,48 +10,49 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 12px;
 }
 
+/* Mobile First (320px+) */
 .modal {
   background: white;
-  border-radius: 20px;
+  border-radius: 12px;
   box-shadow: 0 24px 60px rgba(111, 82, 168, 0.2);
   max-height: 90vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .modal.small {
-  width: 100%;
-  max-width: 400px;
+  max-width: 100%;
 }
 
 .modal.medium {
-  width: 100%;
-  max-width: 600px;
+  max-width: 100%;
 }
 
 .modal.large {
-  width: 100%;
-  max-width: 900px;
+  max-width: 100%;
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 24px;
+  padding: 16px;
   border-bottom: 1px solid #f0f0f0;
   flex-shrink: 0;
+  gap: 12px;
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: #1a1523;
   margin: 0;
+  word-break: break-word;
 }
 
 .close {
@@ -58,12 +60,15 @@
   border: none;
   cursor: pointer;
   color: #9ca3af;
+  min-height: 44px;
+  min-width: 44px;
   padding: 8px;
   border-radius: 8px;
   transition: all 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .close:hover {
@@ -72,7 +77,7 @@
 }
 
 .content {
-  padding: 24px;
+  padding: 16px;
   overflow-y: auto;
   flex: 1;
 }
@@ -95,23 +100,76 @@
   background: #9ca3af;
 }
 
-@media (max-width: 640px) {
-  .modal.small,
-  .modal.medium,
+/* ═════════════════════════════════════════════════════════════════
+   RESPONSIVE MODALS (480px+)
+   ═════════════════════════════════════════════════════════════════ */
+@media (min-width: 480px) {
+  .backdrop {
+    padding: 16px;
+  }
+
+  .modal {
+    border-radius: 14px;
+  }
+
+  .modal.small {
+    max-width: 400px;
+  }
+
+  .modal.medium {
+    max-width: 500px;
+  }
+
   .modal.large {
-    max-width: 100%;
-    max-height: 95vh;
+    max-width: 700px;
   }
 
   .header {
-    padding: 16px;
+    padding: 18px;
   }
 
   .title {
-    font-size: 1.25rem;
+    font-size: 1.35rem;
   }
 
   .content {
-    padding: 16px;
+    padding: 18px;
+  }
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   RESPONSIVE MODALS (768px+)
+   ═════════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+  .backdrop {
+    padding: 20px;
+  }
+
+  .modal {
+    border-radius: 20px;
+  }
+
+  .modal.small {
+    max-width: 400px;
+  }
+
+  .modal.medium {
+    max-width: 600px;
+  }
+
+  .modal.large {
+    max-width: 900px;
+  }
+
+  .header {
+    padding: 24px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .content {
+    padding: 24px;
   }
 }

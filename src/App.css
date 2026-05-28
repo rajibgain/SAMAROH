@@ -55,7 +55,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Typography */
+/* Typography - Mobile First */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
   font-weight: 700;
@@ -63,12 +63,33 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text);
 }
 
-h1 { font-size: 3rem; }
-h2 { font-size: 2.25rem; }
-h3 { font-size: 1.875rem; }
-h4 { font-size: 1.5rem; }
-h5 { font-size: 1.25rem; }
-h6 { font-size: 1rem; }
+/* Mobile (320px+) */
+h1 { font-size: 1.75rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+h4 { font-size: 1.1rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.95rem; }
+
+/* Tablet (768px+) */
+@media (min-width: 768px) {
+  h1 { font-size: 2.25rem; }
+  h2 { font-size: 1.875rem; }
+  h3 { font-size: 1.5rem; }
+  h4 { font-size: 1.25rem; }
+  h5 { font-size: 1.1rem; }
+  h6 { font-size: 1rem; }
+}
+
+/* Desktop (1024px+) */
+@media (min-width: 1024px) {
+  h1 { font-size: 3rem; }
+  h2 { font-size: 2.25rem; }
+  h3 { font-size: 1.875rem; }
+  h4 { font-size: 1.5rem; }
+  h5 { font-size: 1.25rem; }
+  h6 { font-size: 1rem; }
+}
 
 /* Links & Buttons */
 a {
@@ -154,14 +175,21 @@ button {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
-  padding: 28px 24px;
-  margin-bottom: 32px;
+  padding: 20px 16px;
+  margin-bottom: 20px;
   border-radius: 0;
   box-shadow: var(--shadow-sm);
 }
 
+@media (min-width: 768px) {
+  .app-header {
+    padding: 28px 24px;
+    margin-bottom: 32px;
+  }
+}
+
 .app-header h1 {
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin-bottom: 8px;
   background: linear-gradient(135deg, var(--purple) 0%, var(--pink) 100%);
   -webkit-background-clip: text;
@@ -169,20 +197,35 @@ button {
   background-clip: text;
 }
 
+@media (min-width: 768px) {
+  .app-header h1 {
+    font-size: 2rem;
+  }
+}
+
 .app-header p {
   color: var(--text-muted);
-  font-size: 1rem;
+  font-size: 0.95rem;
   margin-bottom: 16px;
 }
 
+@media (min-width: 768px) {
+  .app-header p {
+    font-size: 1rem;
+  }
+}
+
 .app-header__logout {
-  padding: 10px 20px;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 12px 20px;
   background: var(--purple);
   color: white;
   border-radius: 8px;
   font-weight: 600;
   transition: var(--transition);
   margin-top: 12px;
+  font-size: 1rem;
 }
 
 .app-header__logout:hover {
@@ -192,7 +235,7 @@ button {
 }
 
 .app-header__meta {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--text-light);
   margin-top: 8px;
 }
@@ -200,8 +243,21 @@ button {
 .app-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 16px;
 }
+
+@media (min-width: 480px) {
+  .app-container {
+    padding: 0 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  .app-container {
+    padding: 0 24px;
+  }
+}
+
 
 /* ═════════════════════════════════════════════════════════════════
    ANIMATIONS

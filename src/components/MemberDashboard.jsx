@@ -151,12 +151,11 @@ export function MemberDashboard() {
               {assignedEvents.map((event) => (
                 <div
                   key={event.id}
-                  className={styles.card}
+                  className={`${styles.card} ${styles.cursorPointer}`}
                   onClick={() => {
                     setSelectedEvent(event);
                     setActiveView('event-details');
                   }}
-                  style={{ cursor: 'pointer' }}
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
@@ -195,7 +194,7 @@ function EventMemberView({ event, memberUid, onBack, onToggleTask }) {
 
   return (
     <div className={styles.section}>
-      <button type="button" onClick={onBack} className={styles.btn} style={{ marginBottom: '20px' }}>
+      <button type="button" onClick={onBack} className={`${styles.btn} ${styles.marginBottom20}`}>
         ← Back to Overview
       </button>
 
@@ -206,7 +205,7 @@ function EventMemberView({ event, memberUid, onBack, onToggleTask }) {
 
       <MemberJobBoard tasks={myTasks} onToggleTask={onToggleTask} />
 
-      <div style={{ marginTop: '30px', paddingTop: '30px', borderTop: '1px solid #e5e7eb' }}>
+      <div className={styles.spacerFull}>
         <h3>📋 Event Overview</h3>
         <div className={styles.stats}>
           <div className={styles.statBox}>

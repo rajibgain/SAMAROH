@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useNotification } from '../hooks/useNotification';
 import { useAuth } from '../context/AuthContext';
 import { useEvents } from '../hooks/useFirebaseEvents';
+import { FormError } from './FormError';
+import { validateEventForm } from '../utils/formValidation';
 import { Dashboard } from './Dashboard';
 import { GuestManagement } from './GuestManagement';
 import { TaskManagement } from './TaskManagement';
@@ -9,37 +12,66 @@ import { ScheduleView } from './ScheduleView';
 import { FamilyMembers } from './FamilyMembers';
 import { AttendanceOverview } from './AttendanceOverview';
 import { PageLayout } from './PageLayout';
+import { AIBot } from './AIBot';
+import { VendorComparison } from './VendorComparison';
+import { SmartNotificationHub } from './SmartNotificationHub';
+import { AdvancedBudgetAnalytics } from './AdvancedBudgetAnalytics';
 import styles from '../styles/components.module.css';
+import {
+  EVENT_TYPE_OPTIONS,
+  EVENT_TYPES,
+  EVENT_STATUS,
+  EVENT_TYPE_LABELS,
+  EVENT_STATUS_LABELS,
+  GUEST_STATUS,
+  TASK_STATUS,
+  SUCCESS_MESSAGES,
+  ERROR_MESSAGES,
+} from '../constants';
 
 export function CoordinatorDashboard() {
   const { user, logout } = useAuth();
   const { events, loading, createEvent, deleteEvent } = useEvents();
+  const { notify } = useNotification();
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [activeTab, setActiveTab] = useState('dashboard');
 
   const [eventName, setEventName] = useState('');
-  const [eventType, setEventType] = useState('wedding');
+  const [eventType, setEventType] = useState(EVENT_TYPES.WEDDING);
   const [eventDate, setEventDate] = useState('');
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleCreateEvent = async (e) => {
     e.preventDefault();
-    if (!eventName || !eventDate) {
-      alert('Please fill out the name and date!');
+    setErrors({});
+
+    const newErrors = validateEventForm({ eventName, eventDate });
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
 
-    await createEvent({
-      eventName: eventName,
-      eventType: eventType,
-      date: eventDate,
-      status: 'planning',
-      coordinatorId: user.uid,
-      coordinatorEmail: user.email
-    });
+    try {
+      setIsSubmitting(true);
+      await createEvent({
+        eventName,
+        eventType,
+        date: eventDate,
+        status: EVENT_STATUS.PLANNING,
+        coordinatorId: user.uid,
+        coordinatorEmail: user.email,
+      });
 
-    setEventName('');
-    setEventDate('');
-    setEventType('wedding');
+      notify(SUCCESS_MESSAGES.EVENT_CREATED, 'success');
+      setEventName('');
+      setEventDate('');
+      setEventType(EVENT_TYPES.WEDDING);
+    } catch (error) {
+      notify(error.message || ERROR_MESSAGES.EVENT_CREATION_FAILED, 'error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleLogout = async () => {
@@ -85,37 +117,54 @@ export function CoordinatorDashboard() {
             <div className={styles.section}>
               <h3>Create New Event</h3>
               <form onSubmit={handleCreateEvent} className={styles.form}>
-                <input
-                  type="text"
-                  value={eventName}
-                  onChange={(e) => setEventName(e.target.value)}
-                  placeholder="Event Name"
-                  className={styles.input}
-                />
-
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                  <select
-                    value={eventType}
-                    onChange={(e) => setEventType(e.target.value)}
-                    className={styles.input}
-                  >
-                    <option value="wedding">Wedding</option>
-                    <option value="birthday">Birthday</option>
-                    <option value="anniversary">Anniversary</option>
-                    <option value="corporate">Corporate Event</option>
-                    <option value="festival">Festival / Puja</option>
-                  </select>
-
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Event Name *</label>
                   <input
-                    type="date"
-                    value={eventDate}
-                    onChange={(e) => setEventDate(e.target.value)}
-                    className={styles.input}
+                    type="text"
+                    value={eventName}
+                    onChange={(e) => setEventName(e.target.value)}
+                    placeholder="Event Name"
+                    className={`${styles.input} ${errors.eventName ? styles.error : ''}`}
+                    aria-invalid={!!errors.eventName}
                   />
+                  {errors.eventName && <FormError error={errors.eventName} />}
                 </div>
 
-                <button type="submit" className={styles.btn + ' ' + styles.btnPrimary}>
-                  + Create Event
+                <div className={styles.formGridLayout}>
+                  <div className={styles.formGroup}>
+                    <label className={styles.formLabel}>Event Type</label>
+                    <select
+                      value={eventType}
+                      onChange={(e) => setEventType(e.target.value)}
+                      className={styles.input}
+                    >
+                      {EVENT_TYPE_OPTIONS.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label className={styles.formLabel}>Event Date *</label>
+                    <input
+                      type="date"
+                      value={eventDate}
+                      onChange={(e) => setEventDate(e.target.value)}
+                      className={`${styles.input} ${errors.eventDate ? styles.error : ''}`}
+                      aria-invalid={!!errors.eventDate}
+                    />
+                    {errors.eventDate && <FormError error={errors.eventDate} />}
+                  </div>
+                </div>
+
+                <button 
+                  type="submit" 
+                  className={styles.btn + ' ' + styles.btnPrimary}
+                  disabled={isSubmitting || Object.keys(errors).length > 0}
+                >
+                  {isSubmitting ? 'Creating...' : '+ Create Event'}
                 </button>
               </form>
             </div>
@@ -130,9 +179,10 @@ export function CoordinatorDashboard() {
                   {myEvents.map((event) => (
                     <div
                       key={event.id}
-                      className={styles.card}
+                      className={`${styles.card} ${styles.cursorPointer}`}
                       onClick={() => setSelectedEvent(event)}
-                      style={{ cursor: 'pointer' }}
+                      role="button"
+                      tabIndex={0}
                     >
                       <div className={styles.cardHeader}>
                         <h4>{event.eventName}</h4>
@@ -150,21 +200,10 @@ export function CoordinatorDashboard() {
                         📅 {new Date(event.date).toLocaleDateString('en-IN')}
                       </p>
                       <p className={styles.cardInfo}>
-                        <strong>Type:</strong> {event.eventType}
+                        <strong>Type:</strong> {EVENT_TYPE_LABELS[event.eventType] || event.eventType}
                       </p>
-                      <span
-                        style={{
-                          display: 'inline-block',
-                          marginTop: '10px',
-                          padding: '4px 8px',
-                          backgroundColor: '#fef3c7',
-                          color: '#92400e',
-                          borderRadius: '4px',
-                          fontSize: '12px',
-                          fontWeight: 'bold',
-                        }}
-                      >
-                        {event.status.toUpperCase()}
+                      <span className={styles.statusPlanning}>
+                        {EVENT_STATUS_LABELS[event.status] || event.status.toUpperCase()}
                       </span>
                     </div>
                   ))}
@@ -181,12 +220,12 @@ export function CoordinatorDashboard() {
 function EventDetailsView({ event, onBack, activeTab, onTabChange }) {
   const stats = {
     totalGuests: event.guests?.length || 0,
-    confirmedGuests: event.guests?.filter(g => g.status === 'confirmed').length || 0,
-    pendingGuests: event.guests?.filter(g => g.status === 'pending').length || 0,
-    declinedGuests: event.guests?.filter(g => g.status === 'declined').length || 0,
+    confirmedGuests: event.guests?.filter(g => g.status === GUEST_STATUS.CONFIRMED).length || 0,
+    pendingGuests: event.guests?.filter(g => g.status === GUEST_STATUS.PENDING).length || 0,
+    declinedGuests: event.guests?.filter(g => g.status === GUEST_STATUS.DECLINED).length || 0,
     totalTasks: event.tasks?.length || 0,
-    pendingTasks: event.tasks?.filter(t => t.status === 'pending').length || 0,
-    completedTasks: event.tasks?.filter(t => t.status === 'completed').length || 0,
+    pendingTasks: event.tasks?.filter(t => t.status === TASK_STATUS.PENDING).length || 0,
+    completedTasks: event.tasks?.filter(t => t.status === TASK_STATUS.COMPLETED).length || 0,
     totalExpenses: event.expenses?.reduce((sum, e) => sum + (e.amount || 0), 0) || 0,
     totalMembers: event.members?.length || 0,
   };
@@ -197,6 +236,8 @@ function EventDetailsView({ event, onBack, activeTab, onTabChange }) {
     { id: 'tasks', label: '✓ Tasks' },
     { id: 'schedule', label: '📅 Schedule' },
     { id: 'expenses', label: '💰 Budget' },
+    { id: 'vendors', label: '🎯 Vendors' },
+    { id: 'analytics', label: '📈 Analytics' },
     { id: 'members', label: '👥 Team' },
     { id: 'attendance', label: '✅ Attendance' },
   ];
@@ -205,13 +246,12 @@ function EventDetailsView({ event, onBack, activeTab, onTabChange }) {
     <div className={styles.section}>
       <button 
         onClick={onBack}
-        className={styles.btn}
-        style={{ marginBottom: '20px' }}
+        className={`${styles.btn} ${styles.marginBottom20}`}
       >
         ← Back to Events
       </button>
 
-      <div className="nav" style={{ justifyContent: 'flex-start' }}>
+      <div className={`nav ${styles.navJustifyStart}`}>
         {tabs.map(tab => (
           <button
             key={tab.id}
@@ -223,15 +263,23 @@ function EventDetailsView({ event, onBack, activeTab, onTabChange }) {
         ))}
       </div>
 
-      <div style={{ marginTop: '30px' }}>
+      <div className={styles.marginTop30}>
         {activeTab === 'dashboard' && <Dashboard event={event} stats={stats} />}
         {activeTab === 'guests' && <GuestManagement eventId={event.id} />}
         {activeTab === 'tasks' && <TaskManagement eventId={event.id} />}
         {activeTab === 'schedule' && <ScheduleView eventId={event.id} />}
         {activeTab === 'expenses' && <ExpenseTracker eventId={event.id} />}
+        {activeTab === 'vendors' && <VendorComparison eventType={event.eventType} />}
+        {activeTab === 'analytics' && <AdvancedBudgetAnalytics expenses={event.expenses || []} budget={event.budget || 100000} guests={event.guests || []} />}
         {activeTab === 'members' && <FamilyMembers eventId={event.id} />}
         {activeTab === 'attendance' && <AttendanceOverview eventId={event.id} />}
       </div>
+
+      {/* AI Bot Helper */}
+      <AIBot event={event} stats={stats} expenses={event.expenses || []} tasks={event.tasks || []} guests={event.guests || []} />
+
+      {/* Smart Notification Hub */}
+      <SmartNotificationHub tasks={event.tasks || []} guests={event.guests || []} expenses={event.expenses || []} event={event} />
     </div>
   );
 }

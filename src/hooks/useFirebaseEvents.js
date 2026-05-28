@@ -13,6 +13,14 @@ import {
 } from 'firebase/firestore';
 import { db } from '../firebase';
 import { createMemberRegistryEntry, createUniqueMemberUid } from './useMemberRegistry';
+import {
+  GUEST_STATUS,
+  TASK_STATUS,
+  TASK_PRIORITY,
+  JOB_ROLES,
+  EXPENSE_CATEGORIES,
+  MEMBER_ROLES,
+} from '../constants';
 
 export const useEvents = () => {
   const [events, setEvents] = useState([]);
@@ -84,7 +92,7 @@ export const useGuests = (eventId) => {
       const newGuest = {
         id: Date.now(),
         ...guestData,
-        status: 'pending',
+        status: GUEST_STATUS.PENDING,
         attended: false,
         checkedInAt: null,
       };
@@ -147,9 +155,9 @@ export const useTasks = (eventId) => {
       const newTask = {
         id: Date.now(),
         ...taskData,
-        status: 'pending',
-        priority: taskData.priority || 'medium',
-        jobRole: taskData.jobRole || taskData.category || 'general',
+        status: TASK_STATUS.PENDING,
+        priority: taskData.priority || TASK_PRIORITY.MEDIUM,
+        jobRole: taskData.jobRole || taskData.category || JOB_ROLES.OTHER,
         dependsOn: taskData.dependsOn || [],
       };
       await updateDoc(eventRef, {
@@ -201,7 +209,7 @@ export const useExpenses = (eventId) => {
   const addExpense = async (expenseData) => {
     try {
       const eventRef = doc(db, 'events', eventId);
-      const newExpense = { id: Date.now(), ...expenseData, date: new Date().toISOString() };
+      const newExpense = { id: Date.now(), ...expenseData, category: expenseData.category || EXPENSE_CATEGORIES.DECORATION, date: new Date().toISOString() };
       await updateDoc(eventRef, {
         expenses: [...expenses, newExpense]
       });
@@ -311,7 +319,7 @@ export const useMembers = (eventId) => {
         ...memberData,
         memberUid,
         authUid: null,
-        jobRole: memberData.jobRole || memberData.role || 'member',
+        jobRole: memberData.jobRole || memberData.role || JOB_ROLES.OTHER,
         isPresent: false,
         lastSeenAt: null,
         dependsOn: [],

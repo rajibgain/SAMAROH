@@ -109,7 +109,7 @@ export function AdvancedDashboard({ events = [], user, onLogout }) {
               <p className={styles.statLabel}>Completion</p>
               <h3 className={styles.statValue}>85%</h3>
               <p className={styles.statMeta}>
-                <TrendingUp size={14} style={{ display: 'inline', marginRight: '4px' }} />
+                <TrendingUp size={14} className={styles.inlineDisplay} />
                 +12% this week
               </p>
             </div>
